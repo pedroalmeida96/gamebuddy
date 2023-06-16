@@ -24,18 +24,18 @@ public class GameController {
         return gameService.getAllGames();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public Game createGame(@RequestBody Game game) {
         return gameService.createGame(game);
     }
 
-    @PutMapping("/{id}")
-    public Game updateGame(@PathVariable String id, @RequestBody Game game) {
+    @PutMapping("/update")
+    public Game updateGame(@RequestBody Game game) {
         return gameService.updateGame(game);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteGame(@PathVariable UUID id) {
         gameService.deleteGame(id);
     }
