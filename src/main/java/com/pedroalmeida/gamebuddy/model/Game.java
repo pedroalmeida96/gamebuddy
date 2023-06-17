@@ -1,8 +1,6 @@
 package com.pedroalmeida.gamebuddy.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +22,6 @@ public class Game {
     private String location;
     private LocalDateTime gameDateTime;
     private boolean isFull;
-    private List<String> participants;
+    @ManyToMany
+    private List<AppUser> participants;
 }

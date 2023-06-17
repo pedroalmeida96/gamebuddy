@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/gameType")
+@RequestMapping(path = "api/gameTypes")
 @RequiredArgsConstructor
 public class GameTypeController {
-    /**
+
     private final GameTypeService gameTypeService;
 
     @GetMapping
@@ -23,5 +23,5 @@ public class GameTypeController {
         log.debug("GET request from gamebuddy-svc to retrieve all game types");
         return gameTypeService.getGameTypes();
     }
-    **/
+
 }

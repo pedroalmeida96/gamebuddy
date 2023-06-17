@@ -2,6 +2,7 @@ package com.pedroalmeida.gamebuddy.controller;
 
 import com.pedroalmeida.gamebuddy.model.Game;
 import com.pedroalmeida.gamebuddy.service.GameService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/games")
+@RequestMapping(path = "api/games")
 @RequiredArgsConstructor
 public class GameController {
     private final GameService gameService;
@@ -26,7 +27,7 @@ public class GameController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Game createGame(@RequestBody Game game) {
+    public Game createGame(@Valid @RequestBody Game game) {
         return gameService.createGame(game);
     }
 
