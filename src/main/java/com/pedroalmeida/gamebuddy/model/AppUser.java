@@ -1,12 +1,13 @@
 package com.pedroalmeida.gamebuddy.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 @Data
 @Builder
@@ -16,6 +17,9 @@ import lombok.NoArgsConstructor;
 @Table
 public class AppUser {
     @Id
-    private String id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "varchar(36)")
+    private UUID userId;
     private String name;
 }
