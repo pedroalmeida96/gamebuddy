@@ -1,27 +1,12 @@
-version: '3.8'
 services:
-  gamebuddydb:
-    image: 'postgres:latest'
-    container_name: gamebuddydb
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
     restart: always
+    volumes:
+      - mongodb_data:/data/db
     ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_USER=gamebuddy
-      - POSTGRES_PASSWORD=your_password
-      - POSTGRES_DB=gamebuddy
+      - 27017:27017
 
-  gamebuddy:
-    build:
-      dockerfile: Dockerfile
-    container_name: gamebuddy
-    ports:
-      - '8080:8080'
-    depends_on:
-      - gamebuddydb
-    links:
-      - gamebuddydb
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://gamebuddydb:5432/gamebuddy
-      - SPRING_DATASOURCE_USERNAME=gamebuddy
-      - SPRING_DATASOURCE_PASSWORD=your_password
+volumes:
+  mongodb_data:
