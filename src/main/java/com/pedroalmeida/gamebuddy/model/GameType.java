@@ -1,9 +1,5 @@
 package com.pedroalmeida.gamebuddy.model;
 
-import jakarta.persistence.Table;
-
-
-@Table
 public enum GameType {
 
     FOOTBALL("Football", 22),

@@ -18,10 +18,10 @@ public class GameService {
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        return (List<Game>) gameRepository.findAll();
     }
 
-    public Optional<Game> getGameById(UUID gameId) {
+    public Optional<Game> getGameById(Long gameId) {
         return gameRepository.findById(gameId);
     }
 
@@ -36,7 +36,7 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public void deleteGame(UUID id) {
-        gameRepository.deleteById(id);
+    public void deleteGame(Long gameId) {
+        gameRepository.deleteById(gameId);
     }
 }

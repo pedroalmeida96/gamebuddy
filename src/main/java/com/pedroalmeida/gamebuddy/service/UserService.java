@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<AppUser> getAllUsers() {
-        return userRepository.findAll();
+        return (List<AppUser>) userRepository.findAll();
     }
 
     public AppUser addUser(AppUser appUser) {
