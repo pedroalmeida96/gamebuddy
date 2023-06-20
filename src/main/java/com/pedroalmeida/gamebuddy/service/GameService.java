@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -21,7 +20,7 @@ public class GameService {
         return (List<Game>) gameRepository.findAll();
     }
 
-    public Optional<Game> getGameById(Long gameId) {
+    public Optional<Game> getGameById(String gameId) {
         return gameRepository.findById(gameId);
     }
 
@@ -36,7 +35,7 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public void deleteGame(Long gameId) {
+    public void deleteGame(String gameId) {
         gameRepository.deleteById(gameId);
     }
 }

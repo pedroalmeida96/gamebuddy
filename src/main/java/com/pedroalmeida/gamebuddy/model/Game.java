@@ -17,7 +17,7 @@ import java.util.List;
 @Document(collection = "games")
 public class Game {
     @Id
-    private Long gameId;
+    private String gameId;
     private GameType gameType;
     private String location;
     private LocalDateTime gameDateTime;

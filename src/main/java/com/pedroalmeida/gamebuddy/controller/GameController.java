@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -27,7 +26,7 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    public Optional<Game> getGameById(@PathVariable Long gameId) {
+    public Optional<Game> getGameById(@PathVariable String gameId) {
         log.debug("Request received to get game with ID: {}", gameId);
         return gameService.getGameById(gameId);
     }
@@ -46,7 +45,7 @@ public class GameController {
     }
 
     @DeleteMapping("/delete/{gameId}")
-    public void deleteGame(@PathVariable Long gameId) {
+    public void deleteGame(@PathVariable String gameId) {
         log.debug("Request received to delete game with ID: {}", gameId);
         gameService.deleteGame(gameId);
     }
