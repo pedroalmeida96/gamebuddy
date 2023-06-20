@@ -7,7 +7,12 @@ spring:
       host: localhost
       port: 27017
       database: gamebuddy
+  output:
+    ansi:
+      enabled: always
 
 logging:
   level:
+    root: ERROR
+    org.springframework.web: ERROR
     com.pedroalmeida.gamebuddy: DEBUG
