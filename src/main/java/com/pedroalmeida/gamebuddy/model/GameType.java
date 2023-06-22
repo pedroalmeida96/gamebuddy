@@ -1,16 +1,19 @@
 package com.pedroalmeida.gamebuddy.model;
 
+import lombok.Getter;
+
+@Getter
 public enum GameType {
 
     FOOTBALL("Football", 22),
     PADEL("Padel", 2);
 
     private final String sportsName;
-    private final int numPlayers;
+    private final int maxPlayers;
 
 
-    GameType(String sportsName, int numPlayers) {
+    GameType(String sportsName, int maxPlayers) {
         this.sportsName = sportsName;
-        this.numPlayers = numPlayers;
+        this.maxPlayers = maxPlayers;
     }
 }

@@ -20,7 +20,7 @@ public class GameTypeController {
 
     @GetMapping
     public List<GameType> getAllGameTypes() {
-        log.debug("GET request from gamebuddy-svc to retrieve all game types");
+        log.debug("Retrieving all Game Types available");
         return gameTypeService.getGameTypes();
     }
 
