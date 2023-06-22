@@ -23,6 +23,7 @@ public class Game {
     private String location;
     private LocalDateTime gameDateTime;
     private boolean isFull;
+    private int numPlayers;
     @DBRef
     private List<AppUser> participants;
 }

@@ -4,6 +4,7 @@ import com.pedroalmeida.gamebuddy.model.Game;
 import com.pedroalmeida.gamebuddy.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,10 +15,11 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class GameService {
+    private final GameLotationValidator gameLotationValidator;
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return (List<Game>) gameRepository.findAll();
+        return gameRepository.findAll();
     }
 
     public Optional<Game> getGameById(String gameId) {
@@ -32,10 +34,15 @@ public class GameService {
     }
 
     public Game updateGame(Game game) {
-        return gameRepository.save(game);
+        //Don't allow the same player 2 times
+        //isFull and numPlayers only updatable via code
+        Optional<Game> dbGame = gameRepository.findById(game.getGameId());
+        gameLotationValidator.handlePlayers(game, dbGame);
+        return game;
     }
 
     public void deleteGame(String gameId) {
+        //notify all players
         gameRepository.deleteById(gameId);
     }
 }

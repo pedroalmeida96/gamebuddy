@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/games")
 @RequiredArgsConstructor
 public class GameController {
@@ -32,7 +32,6 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
     public Game createGame(@Valid @RequestBody Game game) {
         log.debug("Request received to create a new game");
         return gameService.createGame(game);
