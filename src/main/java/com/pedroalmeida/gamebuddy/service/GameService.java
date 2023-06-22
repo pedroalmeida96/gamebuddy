@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class GameService {
+    private final PlayersValidator playerValidator;
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
@@ -37,12 +38,11 @@ public class GameService {
         //Don't allow the same player 2 times
         //isFull and numPlayers only updatable via code
         Game dbGame = gameRepository.findById(updatedGame.getGameId()).orElseThrow(() -> new IllegalArgumentException("Game not found"));
-        List<AppUser> playersToAdd = dbGame.getParticipants().stream()
-                .filter(p -> !updatedGame.getParticipants().contains(p))
-                .collect(Collectors.toList());
-        updatedGame.getParticipants().addAll(playersToAdd);
+        playerValidator.handlePlayers(updatedGame, dbGame);
         return gameRepository.save(updatedGame);
     }
+
+
 
     public void deleteGame(String gameId) {
         //notify all players
