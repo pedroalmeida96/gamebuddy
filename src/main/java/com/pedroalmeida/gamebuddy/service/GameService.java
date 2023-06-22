@@ -40,11 +40,8 @@ public class GameService {
         List<AppUser> playersToAdd = dbGame.getParticipants().stream()
                 .filter(p -> !updatedGame.getParticipants().contains(p))
                 .collect(Collectors.toList());
-
         updatedGame.getParticipants().addAll(playersToAdd);
         return gameRepository.save(updatedGame);
-
-
     }
 
     public void deleteGame(String gameId) {
