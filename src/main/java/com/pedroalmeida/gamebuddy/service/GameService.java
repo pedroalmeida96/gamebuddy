@@ -28,9 +28,13 @@ public class GameService {
     }
 
     public Game createGame(Game game) {
+        if (game.getParticipants().isEmpty()) {
+            throw new IllegalArgumentException("No participants");
+        }
         if (game.getGameDateTime().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("The game date time must be in the future.");
         }
+        game.setNumPlayers(game.getParticipants().size());
         return gameRepository.save(game);
     }
 
@@ -41,7 +45,6 @@ public class GameService {
         playerValidator.handlePlayers(updatedGame, dbGame);
         return gameRepository.save(updatedGame);
     }
-
 
 
     public void deleteGame(String gameId) {
