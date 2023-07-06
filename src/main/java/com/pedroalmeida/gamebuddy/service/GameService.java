@@ -57,6 +57,6 @@ public class GameService {
 
     public void deleteGame(String gameId) {
         //notify all players
-        gameRepository.deleteAll();
+        gameRepository.deleteById(gameId);
     }
 }
