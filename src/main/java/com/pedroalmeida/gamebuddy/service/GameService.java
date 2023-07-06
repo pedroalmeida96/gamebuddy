@@ -1,6 +1,5 @@
 package com.pedroalmeida.gamebuddy.service;
 
-import com.pedroalmeida.gamebuddy.model.AppUser;
 import com.pedroalmeida.gamebuddy.model.Game;
 import com.pedroalmeida.gamebuddy.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,12 +47,6 @@ public class GameService {
         }
         if (updatedGame.getGameDateTime() != null) {
             dbGame.setGameDateTime(updatedGame.getGameDateTime());
-        }
-        if (updatedGame.isFull()) {
-            dbGame.setFull(updatedGame.isFull());
-        }
-        if (updatedGame.getNumPlayers() > 0) {
-            dbGame.setNumPlayers(updatedGame.getNumPlayers());
         }
         if (updatedGame.getParticipants() != null) {
             playerValidator.handlePlayers(updatedGame, dbGame);

@@ -1,6 +1,5 @@
 package com.pedroalmeida.gamebuddy.service;
 
-import com.pedroalmeida.gamebuddy.exception.GameFullException;
 import com.pedroalmeida.gamebuddy.model.AppUser;
 import com.pedroalmeida.gamebuddy.model.Game;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
