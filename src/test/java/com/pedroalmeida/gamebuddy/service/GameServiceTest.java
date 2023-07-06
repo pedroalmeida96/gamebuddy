@@ -68,13 +68,12 @@ public class GameServiceTest {
         // Arrange
         Game game = new Game();
 
-        var users = List.of(AppUser.builder()
+        // Add the AppUser object to the ArrayList
+        game.setParticipants(List.of(AppUser.builder()
                 .userId("123")
                 .name("John Doe")
-                .build());
+                .build()));
 
-        // Add the AppUser object to the ArrayList
-        game.setParticipants(users);
         game.setGameDateTime(LocalDateTime.now().plusHours(1));
 
         when(gameRepository.save(game)).thenReturn(game);
@@ -96,6 +95,10 @@ public class GameServiceTest {
         existingGame.setGameId(gameId);
         Game updatedGame = new Game();
         updatedGame.setGameId(gameId);
+        updatedGame.setParticipants(List.of(AppUser.builder()
+                .userId("123")
+                .name("John Doe")
+                .build()));
         updatedGame.setGameType(GameType.FOOTBALL);
         updatedGame.setLocation("New Location");
 
