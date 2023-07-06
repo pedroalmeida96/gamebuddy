@@ -1,6 +1,5 @@
 package com.pedroalmeida.gamebuddy.service;
 
-import com.pedroalmeida.gamebuddy.model.AppUser;
 import com.pedroalmeida.gamebuddy.model.Game;
 import com.pedroalmeida.gamebuddy.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,11 +37,21 @@ public class GameService {
     }
 
     public Game updateGame(Game updatedGame) {
-        //Don't allow the same player 2 times
-        //isFull and numPlayers only updatable via code
-        Game dbGame = gameRepository.findById(updatedGame.getGameId()).orElseThrow(() -> new IllegalArgumentException("Game not found"));
-        playerValidator.handlePlayers(updatedGame, dbGame);
-        return gameRepository.save(updatedGame);
+        Game dbGame = gameRepository.findById(updatedGame.getGameId())
+                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        if (updatedGame.getGameType() != null) {
+            dbGame.setGameType(updatedGame.getGameType());
+        }
+        if (updatedGame.getLocation() != null) {
+            dbGame.setLocation(updatedGame.getLocation());
+        }
+        if (updatedGame.getGameDateTime() != null) {
+            dbGame.setGameDateTime(updatedGame.getGameDateTime());
+        }
+        if (updatedGame.getParticipants() != null) {
+            playerValidator.handlePlayers(updatedGame, dbGame);
+        }
+        return gameRepository.save(dbGame);
     }
 
 
