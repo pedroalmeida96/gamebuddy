@@ -7,7 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,16 +18,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlayersValidator {
     public void handlePlayers(Game updatedGame, Game dbGame) {
-        List<AppUser> playersToAdd = dbGame.getParticipants().stream()
-                .filter(p -> updatedGame.getParticipants().stream()
-                        .noneMatch(updatedP -> updatedP.getUserId().equals(p.getUserId())))
-                .collect(Collectors.toList());
-
-        if (dbGame.getNumPlayers() + playersToAdd.size() < dbGame.getGameType().getMaxPlayers()) {
-            updatedGame.getParticipants().addAll(playersToAdd);
-            updatedGame.setNumPlayers(updatedGame.getNumPlayers() + 1);
-        } else {
-            throw new GameFullException("Game is full");
-        }
+        List<AppUser> allParticipants = new ArrayList<>(dbGame.getParticipants());
+        allParticipants.addAll(updatedGame.getParticipants());
+        Set<AppUser> uniqueParticipants = new HashSet<>(allParticipants);
+        dbGame.setParticipants(new ArrayList<>(uniqueParticipants));
+        dbGame.setNumPlayers(uniqueParticipants.size());
     }
 }

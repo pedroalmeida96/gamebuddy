@@ -39,16 +39,32 @@ public class GameService {
     }
 
     public Game updateGame(Game updatedGame) {
-        //Don't allow the same player 2 times
-        //isFull and numPlayers only updatable via code
-        Game dbGame = gameRepository.findById(updatedGame.getGameId()).orElseThrow(() -> new IllegalArgumentException("Game not found"));
-        playerValidator.handlePlayers(updatedGame, dbGame);
-        return gameRepository.save(updatedGame);
+        Game dbGame = gameRepository.findById(updatedGame.getGameId())
+                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        if (updatedGame.getGameType() != null) {
+            dbGame.setGameType(updatedGame.getGameType());
+        }
+        if (updatedGame.getLocation() != null) {
+            dbGame.setLocation(updatedGame.getLocation());
+        }
+        if (updatedGame.getGameDateTime() != null) {
+            dbGame.setGameDateTime(updatedGame.getGameDateTime());
+        }
+        if (updatedGame.isFull()) {
+            dbGame.setFull(updatedGame.isFull());
+        }
+        if (updatedGame.getNumPlayers() > 0) {
+            dbGame.setNumPlayers(updatedGame.getNumPlayers());
+        }
+        if (updatedGame.getParticipants() != null) {
+            playerValidator.handlePlayers(updatedGame, dbGame);
+        }
+        return gameRepository.save(dbGame);
     }
 
 
     public void deleteGame(String gameId) {
         //notify all players
-        gameRepository.deleteById(gameId);
+        gameRepository.deleteAll();
     }
 }
