@@ -24,6 +24,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
+    @GetMapping("{userId}")
+    public AppUserDTO getAppUser(@PathVariable("userId") String userId) {
+        return userService.getAppUser(userId);
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addUser(@Valid @RequestBody AppUser appUser) {
