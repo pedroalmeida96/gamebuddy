@@ -1,7 +1,5 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.game;
 
-import com.pedroalmeida.gamebuddy.model.Game;
-import com.pedroalmeida.gamebuddy.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +12,11 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class GameService {
+    private final PlayersValidator playerValidator;
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return (List<Game>) gameRepository.findAll();
+        return gameRepository.findAll();
     }
 
     public Optional<Game> getGameById(String gameId) {
@@ -25,17 +24,26 @@ public class GameService {
     }
 
     public Game createGame(Game game) {
+        if (game.getParticipants().isEmpty()) {
+            throw new IllegalArgumentException("No participants");
+        }
         if (game.getGameDateTime().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("The game date time must be in the future.");
         }
+        game.setNumPlayers(game.getParticipants().size());
         return gameRepository.save(game);
     }
 
-    public Game updateGame(Game game) {
-        return gameRepository.save(game);
+    public Game updateGame(Game updatedGame) {
+        Game oldGame = gameRepository.findById(updatedGame.getGameId())
+                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        updatedGame = playerValidator.handlePlayers(updatedGame, oldGame);
+        return gameRepository.save(updatedGame);
     }
+
 
     public void deleteGame(String gameId) {
+        //notify all players
         gameRepository.deleteById(gameId);
     }
 }
