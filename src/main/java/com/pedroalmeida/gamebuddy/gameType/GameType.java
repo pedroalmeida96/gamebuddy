@@ -1,4 +1,4 @@
-package com.pedroalmeida.gamebuddy.model;
+package com.pedroalmeida.gamebuddy.gameType;
 
 import lombok.Getter;
 

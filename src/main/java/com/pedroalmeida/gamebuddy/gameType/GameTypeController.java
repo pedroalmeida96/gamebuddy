@@ -1,7 +1,5 @@
-package com.pedroalmeida.gamebuddy.controller;
+package com.pedroalmeida.gamebuddy.gameType;
 
-import com.pedroalmeida.gamebuddy.model.GameType;
-import com.pedroalmeida.gamebuddy.service.GameTypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

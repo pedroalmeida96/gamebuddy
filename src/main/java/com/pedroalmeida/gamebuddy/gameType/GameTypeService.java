@@ -1,6 +1,6 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.gameType;
 
-import com.pedroalmeida.gamebuddy.model.GameType;
+import com.pedroalmeida.gamebuddy.gameType.GameType;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

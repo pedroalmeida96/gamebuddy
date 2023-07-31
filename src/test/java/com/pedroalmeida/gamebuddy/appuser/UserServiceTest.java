@@ -1,20 +1,13 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.appuser;
 
-import com.pedroalmeida.gamebuddy.exception.ResourceNotFoundException;
-import com.pedroalmeida.gamebuddy.model.AppUser;
-import com.pedroalmeida.gamebuddy.model.AppUserDTO;
-import com.pedroalmeida.gamebuddy.model.Game;
-import com.pedroalmeida.gamebuddy.model.GameType;
-import com.pedroalmeida.gamebuddy.repository.GameRepository;
-import com.pedroalmeida.gamebuddy.repository.UserRepository;
+import com.pedroalmeida.gamebuddy.appuser.*;
+import com.pedroalmeida.gamebuddy.appuser.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
