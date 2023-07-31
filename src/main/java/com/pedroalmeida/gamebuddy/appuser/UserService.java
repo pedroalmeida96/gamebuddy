@@ -1,9 +1,5 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.appuser;
 
-import com.pedroalmeida.gamebuddy.exception.ResourceNotFoundException;
-import com.pedroalmeida.gamebuddy.model.AppUser;
-import com.pedroalmeida.gamebuddy.model.AppUserDTO;
-import com.pedroalmeida.gamebuddy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

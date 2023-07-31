@@ -1,6 +1,5 @@
-package com.pedroalmeida.gamebuddy.repository;
+package com.pedroalmeida.gamebuddy.game;
 
-import com.pedroalmeida.gamebuddy.model.Game;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

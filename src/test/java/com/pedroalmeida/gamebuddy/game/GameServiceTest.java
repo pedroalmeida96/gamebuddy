@@ -1,9 +1,11 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.game;
 
-import com.pedroalmeida.gamebuddy.model.AppUser;
-import com.pedroalmeida.gamebuddy.model.Game;
-import com.pedroalmeida.gamebuddy.model.GameType;
-import com.pedroalmeida.gamebuddy.repository.GameRepository;
+import com.pedroalmeida.gamebuddy.appuser.AppUser;
+import com.pedroalmeida.gamebuddy.game.Game;
+import com.pedroalmeida.gamebuddy.game.GameService;
+import com.pedroalmeida.gamebuddy.game.PlayersValidator;
+import com.pedroalmeida.gamebuddy.gameType.GameType;
+import com.pedroalmeida.gamebuddy.game.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

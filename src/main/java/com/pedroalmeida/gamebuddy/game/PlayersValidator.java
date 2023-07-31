@@ -1,7 +1,6 @@
-package com.pedroalmeida.gamebuddy.service;
+package com.pedroalmeida.gamebuddy.game;
 
-import com.pedroalmeida.gamebuddy.model.AppUser;
-import com.pedroalmeida.gamebuddy.model.Game;
+import com.pedroalmeida.gamebuddy.appuser.AppUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

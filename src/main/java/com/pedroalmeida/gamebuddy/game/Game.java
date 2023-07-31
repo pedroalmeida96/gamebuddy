@@ -1,5 +1,7 @@
-package com.pedroalmeida.gamebuddy.model;
+package com.pedroalmeida.gamebuddy.game;
 
+import com.pedroalmeida.gamebuddy.appuser.AppUser;
+import com.pedroalmeida.gamebuddy.gameType.GameType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
