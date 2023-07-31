@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class GameServiceTest {
@@ -91,31 +92,36 @@ public class GameServiceTest {
 
     @Test
     public void testUpdateGame() {
-        // Arrange
         String gameId = "123";
+        AppUser john = AppUser.builder().userId("123").name("John").build();
+        AppUser alice = AppUser.builder().userId("234").name("Alice").build();
+
         Game existingGame = new Game();
         existingGame.setGameId(gameId);
+        existingGame.setParticipants(List.of(john));
+        existingGame.setGameType(GameType.FOOTBALL);
+        existingGame.setLocation("Location");
+
         Game updatedGame = new Game();
         updatedGame.setGameId(gameId);
-        updatedGame.setParticipants(List.of(AppUser.builder()
-                .userId("123")
-                .name("John Doe")
-                .build()));
+        updatedGame.setParticipants(List.of(john, alice));
         updatedGame.setGameType(GameType.FOOTBALL);
         updatedGame.setLocation("New Location");
 
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(existingGame));
-        when(gameRepository.save(existingGame)).thenReturn(existingGame);
+        when(playerValidator.handlePlayers(updatedGame, existingGame)).thenReturn(updatedGame);
+        when(gameRepository.save(updatedGame)).thenReturn(updatedGame);
 
         // Act
         Game result = gameService.updateGame(updatedGame);
 
         // Assert
-        assertEquals(existingGame, result);
-        assertEquals(updatedGame.getGameType(), existingGame.getGameType());
-        assertEquals(updatedGame.getLocation(), existingGame.getLocation());
+        assertNotNull(result);
+        assertEquals(updatedGame, result);
+        assertEquals(updatedGame.getGameType(), result.getGameType());
+        assertEquals(updatedGame.getLocation(), result.getLocation());
         verify(gameRepository, times(1)).findById(gameId);
-        verify(gameRepository, times(1)).save(existingGame);
+        verify(gameRepository, times(1)).save(updatedGame);
         verify(playerValidator, times(1)).handlePlayers(updatedGame, existingGame);
     }
 
