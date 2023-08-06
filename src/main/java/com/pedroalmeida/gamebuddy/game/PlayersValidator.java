@@ -14,11 +14,12 @@ import java.util.Set;
 @Slf4j
 @RequiredArgsConstructor
 public class PlayersValidator {
-    public void handlePlayers(Game updatedGame, Game dbGame) {
-        List<AppUser> allParticipants = new ArrayList<>(dbGame.getParticipants());
+    public Game handlePlayers(Game updatedGame, Game oldGame) {
+        List<AppUser> allParticipants = new ArrayList<>(oldGame.getParticipants());
         allParticipants.addAll(updatedGame.getParticipants());
         Set<AppUser> uniqueParticipants = new HashSet<>(allParticipants);
-        dbGame.setParticipants(new ArrayList<>(uniqueParticipants));
-        dbGame.setNumPlayers(uniqueParticipants.size());
+        updatedGame.setParticipants(new ArrayList<>(uniqueParticipants));
+        updatedGame.setNumPlayers(uniqueParticipants.size());
+        return updatedGame;
     }
 }

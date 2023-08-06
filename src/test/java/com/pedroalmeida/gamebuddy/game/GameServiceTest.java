@@ -1,11 +1,7 @@
 package com.pedroalmeida.gamebuddy.game;
 
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
-import com.pedroalmeida.gamebuddy.game.Game;
-import com.pedroalmeida.gamebuddy.game.GameService;
-import com.pedroalmeida.gamebuddy.game.PlayersValidator;
 import com.pedroalmeida.gamebuddy.gameType.GameType;
-import com.pedroalmeida.gamebuddy.game.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class GameServiceTest {
