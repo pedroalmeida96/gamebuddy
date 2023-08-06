@@ -35,8 +35,6 @@ public class GameService {
     }
 
     public Game updateGame(Game updatedGame) {
-        Game dbGame = gameRepository.findById(updatedGame.getGameId())
-                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
         return gameRepository.save(updatedGame);
     }
 

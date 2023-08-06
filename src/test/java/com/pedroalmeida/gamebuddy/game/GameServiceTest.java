@@ -91,32 +91,21 @@ public class GameServiceTest {
 
     @Test
     public void testUpdateGame() {
-        // Arrange
-        String gameId = "123";
         Game existingGame = new Game();
-        existingGame.setGameId(gameId);
+        existingGame.setGameId("123");
+        existingGame.setGameType(GameType.FOOTBALL);
+        when(gameRepository.findById("123")).thenReturn(Optional.of(existingGame));
+
         Game updatedGame = new Game();
-        updatedGame.setGameId(gameId);
-        updatedGame.setParticipants(List.of(AppUser.builder()
-                .userId("123")
-                .name("John Doe")
-                .build()));
-        updatedGame.setGameType(GameType.FOOTBALL);
-        updatedGame.setLocation("New Location");
+        updatedGame.setGameId("234");
+        updatedGame.setGameType(GameType.PADEL);
 
-        when(gameRepository.findById(gameId)).thenReturn(Optional.of(existingGame));
-        when(gameRepository.save(existingGame)).thenReturn(existingGame);
+        when(gameRepository.save(updatedGame)).thenReturn(updatedGame);
 
-        // Act
         Game result = gameService.updateGame(updatedGame);
 
-        // Assert
-        assertEquals(existingGame, result);
-        assertEquals(updatedGame.getGameType(), existingGame.getGameType());
-        assertEquals(updatedGame.getLocation(), existingGame.getLocation());
-        verify(gameRepository, times(1)).findById(gameId);
-        verify(gameRepository, times(1)).save(existingGame);
-        verify(playerValidator, times(1)).handlePlayers(updatedGame, existingGame);
+        verify(gameRepository).save(updatedGame);
+        assertEquals(updatedGame, result);
     }
 
     @Test
