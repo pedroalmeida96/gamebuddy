@@ -37,19 +37,7 @@ public class GameService {
     public Game updateGame(Game updatedGame) {
         Game dbGame = gameRepository.findById(updatedGame.getGameId())
                 .orElseThrow(() -> new IllegalArgumentException("Game not found"));
-        if (updatedGame.getGameType() != null) {
-            dbGame.setGameType(updatedGame.getGameType());
-        }
-        if (updatedGame.getLocation() != null) {
-            dbGame.setLocation(updatedGame.getLocation());
-        }
-        if (updatedGame.getGameDateTime() != null) {
-            dbGame.setGameDateTime(updatedGame.getGameDateTime());
-        }
-        if (updatedGame.getParticipants() != null) {
-            playerValidator.handlePlayers(updatedGame, dbGame);
-        }
-        return gameRepository.save(dbGame);
+        return gameRepository.save(updatedGame);
     }
 
 
