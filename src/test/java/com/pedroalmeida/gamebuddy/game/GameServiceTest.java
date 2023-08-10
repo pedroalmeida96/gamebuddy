@@ -19,9 +19,6 @@ import static org.mockito.Mockito.*;
 public class GameServiceTest {
 
     @Mock
-    private PlayersValidator playerValidator;
-
-    @Mock
     private GameRepository gameRepository;
 
     @InjectMocks
