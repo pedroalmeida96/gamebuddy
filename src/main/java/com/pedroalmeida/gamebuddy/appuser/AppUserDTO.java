@@ -1,6 +1,7 @@
 package com.pedroalmeida.gamebuddy.appuser;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter

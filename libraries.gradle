@@ -1,0 +1,16 @@
+ext {
+    version = [
+            springboot: '3.1.2',
+    ]
+
+    libraries = [
+            springboot: "org.springframework.boot:spring-boot-starter-web:$version.springboot",
+            mongodb   : "org.springframework.boot:spring-boot-starter-data-mongodb:$version.springboot",
+            validation: "org.springframework.boot:spring-boot-starter-validation:$version.springboot",
+            lombok    : "org.projectlombok:lombok",
+    ]
+
+    testLibraries = [
+            springBootTest: "org.springframework.boot:spring-boot-starter-test:$version.springboot"
+    ]
+}
