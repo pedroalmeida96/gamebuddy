@@ -14,13 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class GameServiceTest {
-
-    @Mock
-    private PlayersValidator playerValidator;
 
     @Mock
     private GameRepository gameRepository;
