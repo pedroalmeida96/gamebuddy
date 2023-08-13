@@ -1,11 +1,14 @@
 ext {
     version = [
             springboot: '3.1.2',
+            mysqlconn : '8.1.0'
     ]
 
     libraries = [
             springboot: "org.springframework.boot:spring-boot-starter-web:$version.springboot",
             mongodb   : "org.springframework.boot:spring-boot-starter-data-mongodb:$version.springboot",
+            jpa       : "org.springframework.boot:spring-boot-starter-data-jpa:$version.springboot",
+            mysqlconn : "com.mysql:mysql-connector-j:$version.mysqlconn",
             validation: "org.springframework.boot:spring-boot-starter-validation:$version.springboot",
             lombok    : "org.projectlombok:lombok",
     ]

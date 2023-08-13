@@ -19,7 +19,7 @@ public class GameService {
         return gameRepository.findAll();
     }
 
-    public Optional<Game> getGameById(String gameId) {
+    public Optional<Game> getGameById(Integer gameId) {
         return gameRepository.findById(gameId);
     }
 
@@ -35,11 +35,13 @@ public class GameService {
     }
 
     public Game updateGame(Game updatedGame) {
-        return gameRepository.save(updatedGame);
+        Game existingGame = gameRepository.getReferenceById(updatedGame.getGameId());
+        existingGame.setGameType(updatedGame.getGameType());
+        return gameRepository.save(existingGame);
     }
 
 
-    public void deleteGame(String gameId) {
+    public void deleteGame(Integer gameId) {
         //notify all players
         gameRepository.deleteById(gameId);
     }

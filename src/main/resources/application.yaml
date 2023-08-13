@@ -2,14 +2,17 @@ server:
   port: 8080
 
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: gamebuddy
-  output:
-    ansi:
-      enabled: always
+  datasource:
+    url: jdbc:mysql://localhost:3306/db
+    username: root
+    password: spring
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
 logging:
   level:

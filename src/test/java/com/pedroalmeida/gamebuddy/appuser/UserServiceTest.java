@@ -33,15 +33,15 @@ public class UserServiceTest {
     public void testGetAllUsers() {
         // Arrange
         List<AppUser> mockUserList = Arrays.asList(
-                new AppUser("1", "John"),
-                new AppUser("2", "Alice"));
+                new AppUser(1, "John"),
+                new AppUser(2, "Alice"));
 
         when(userRepository.findAll()).thenReturn(mockUserList);
 
         when(appUserDTOMapper.apply(mockUserList.get(0)))
-                .thenReturn(AppUserDTO.builder().userId("1").name("John").build());
+                .thenReturn(AppUserDTO.builder().userId(1).name("John").build());
         when(appUserDTOMapper.apply(mockUserList.get(1)))
-                .thenReturn(AppUserDTO.builder().userId("2").name("Alice").build());
+                .thenReturn(AppUserDTO.builder().userId(2).name("Alice").build());
 
         // Act
         List<AppUserDTO> result = userService.getAllUsers();
@@ -54,7 +54,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetAppUser(){
-        String userId = "1";
+        Integer userId = 1;
         String userName = "John";
         AppUser mockUser = new AppUser(userId, userName);
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
@@ -68,7 +68,7 @@ public class UserServiceTest {
     @Test
     public void testGetAppUser_withInvalidId() {
         // Arrange
-        String invalidId = "invalid";
+        Integer invalidId = Integer.valueOf("invalid");
         when(userRepository.findById(invalidId)).thenReturn(Optional.empty());
 
         // Act & Assert
@@ -77,7 +77,7 @@ public class UserServiceTest {
 
     @Test
     public void testAddAppUser() {
-        var newUser = AppUser.builder().userId("1").name("John").build();
+        var newUser = AppUser.builder().userId(1).name("John").build();
         when(userRepository.save(newUser)).thenReturn(newUser);
 
         var result = userService.addUser(newUser);

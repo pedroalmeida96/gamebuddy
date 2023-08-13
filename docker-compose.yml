@@ -1,12 +1,15 @@
+version: '3.8'
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    volumes:
-      - mongodb_data:/data/db
+  db:
+    image: mysql:latest
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: spring
+      MYSQL_DATABASE: db
     ports:
-      - 27017:27017
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  mongodb_data:
+  mysql-data:

@@ -1,19 +1,19 @@
 package com.pedroalmeida.gamebuddy.appuser;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "app_users")
+@Entity
 public class AppUser {
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
+
+    @Column
     private String name;
 }

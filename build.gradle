@@ -54,7 +54,8 @@ repositories {
 
 dependencies {
     implementation libraries.springboot
-    implementation libraries.mongodb
+    implementation libraries.mysqlconn
+    implementation libraries.jpa
     implementation libraries.validation
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

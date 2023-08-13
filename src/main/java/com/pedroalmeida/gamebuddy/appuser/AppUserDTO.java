@@ -6,6 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class AppUserDTO {
-    private String userId;
+    private Integer userId;
     private String name;
 }
