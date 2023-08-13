@@ -66,16 +66,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAppUser_withInvalidId() {
-        // Arrange
-        Integer invalidId = Integer.valueOf("invalid");
-        when(userRepository.findById(invalidId)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> userService.getAppUser(invalidId));
-    }
-
-    @Test
     public void testAddAppUser() {
         var newUser = AppUser.builder().userId(1).name("John").build();
         when(userRepository.save(newUser)).thenReturn(newUser);

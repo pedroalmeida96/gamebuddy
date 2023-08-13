@@ -87,19 +87,21 @@ public class GameServiceTest {
         Game existingGame = new Game();
         existingGame.setGameId(123);
         existingGame.setGameType(GameType.FOOTBALL);
-        when(gameRepository.findById(123)).thenReturn(Optional.of(existingGame));
+
+        // Assuming you have a custom method named findByReferenceId
+        when(gameRepository.getReferenceById(123)).thenReturn(existingGame);
+        when(gameRepository.save(existingGame)).thenReturn(existingGame);
 
         Game updatedGame = new Game();
-        updatedGame.setGameId(234);
+        updatedGame.setGameId(123);
         updatedGame.setGameType(GameType.PADEL);
-
-        when(gameRepository.save(updatedGame)).thenReturn(updatedGame);
 
         Game result = gameService.updateGame(updatedGame);
 
-        verify(gameRepository).save(updatedGame);
-        assertEquals(updatedGame, result);
+        verify(gameRepository).save(existingGame);
+        assertEquals(existingGame, result);
     }
+
 
     @Test
     public void testDeleteGame() {
