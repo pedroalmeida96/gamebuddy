@@ -5,9 +5,6 @@ import jakarta.persistence.PreUpdate;
 
 import java.util.Date;
 
-/**
- * https://stackoverflow.com/questions/221611/creation-timestamp-and-last-update-timestamp-with-hibernate-and-mysql
- */
 public class AuditListener {
 
 

@@ -12,7 +12,6 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class GameService {
-    private final PlayersValidator playerValidator;
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
