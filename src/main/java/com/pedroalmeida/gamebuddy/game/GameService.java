@@ -37,6 +37,9 @@ public class GameService {
     public Game updateGame(Game updatedGame) {
         Game existingGame = gameRepository.getReferenceById(updatedGame.getGameId());
         existingGame.setGameType(updatedGame.getGameType());
+        existingGame.setLocation(updatedGame.getLocation());
+        existingGame.setGameDateTime(updatedGame.getGameDateTime());
+        existingGame.setParticipants(updatedGame.getParticipants());
         return gameRepository.save(existingGame);
     }
 
