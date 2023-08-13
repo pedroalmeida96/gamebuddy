@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("{userId}")
-    public AppUserDTO getAppUser(@PathVariable("userId") String userId) {
+    public AppUserDTO getAppUser(@PathVariable("userId") Integer userId) {
         return userService.getAppUser(userId);
     }
 
