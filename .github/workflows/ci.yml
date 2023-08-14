@@ -8,11 +8,15 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: spring
+          POSTGRES_DB: gamebuddy
+          POSTGRES_USER: gamebuddy
+          POSTGRES_PASSWORD: password
         ports:
           - "5432:5432"
+
+    env:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
 
     steps:
       - name: Checkout code
