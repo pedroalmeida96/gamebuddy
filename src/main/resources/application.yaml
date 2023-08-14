@@ -6,7 +6,7 @@ spring:
     name: gamebuddy
   datasource:
     platform: postgres
-    url: ${POSTGRES_URL}
+    url: ${postgres_url}
     username: ${postgres_user}
     password: ${postgres_password}
     driverClassName: org.postgresql.Driver
