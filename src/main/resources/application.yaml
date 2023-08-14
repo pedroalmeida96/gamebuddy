@@ -5,9 +5,9 @@ spring:
   application:
     name: gamebuddy
   datasource:
-    password: password
-    url: jdbc:postgresql://localhost:5432/gamebuddy
-    username: gamebuddy
+    password: NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE
+    url: jdbc:postgres://gamebuddy_postgresql_user:NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE@dpg-cjd17m45kgrc739blia0-a/gamebuddy_postgresql
+    username: gamebuddy_postgresql_user
   jpa:
     hibernate:
       ddl-auto: create-drop
