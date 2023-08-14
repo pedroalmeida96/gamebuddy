@@ -5,9 +5,10 @@ spring:
   application:
     name: gamebuddy
   datasource:
-    password: NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE
+    platform: postgres
     url: jdbc:postgres://gamebuddy_postgresql_user:NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE@dpg-cjd17m45kgrc739blia0-a.frankfurt-postgres.render.com/gamebuddy_postgresql
     username: gamebuddy_postgresql_user
+    password: NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
