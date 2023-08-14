@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+render:
+  env_group: ${gamebuddy-group}
+
 spring:
   application:
     name: gamebuddy
