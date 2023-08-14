@@ -2,17 +2,26 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: gamebuddy
   datasource:
-    url: jdbc:mysql://localhost:3306/db
-    username: root
-    password: spring
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: postgres
+#    For render use (reading from render env variables)
+#    url: ${postgres_url}
+#    username: ${postgres_user}
+#    password: ${postgres_password}
+
+#   For local use
+    url: jdbc:postgresql://localhost:5432/gamebuddy
+    username: gamebuddy
+    password: password
+    driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 logging:
   level:

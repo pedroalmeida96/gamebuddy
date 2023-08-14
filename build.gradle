@@ -54,9 +54,9 @@ repositories {
 
 dependencies {
     implementation libraries.springboot
-    implementation libraries.mysqlconn
     implementation libraries.jpa
     implementation libraries.validation
+    runtimeOnly 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation testLibraries.springBootTest

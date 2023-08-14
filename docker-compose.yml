@@ -1,15 +1,23 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:latest
-    container_name: db
+  postgres:
+    container_name: postgres
+    image: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: spring
-      MYSQL_DATABASE: db
-    ports:
-      - "3306:3306"
+      POSTGRES_USER: gamebuddy
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
     volumes:
-      - mysql-data:/var/lib/mysql
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
 
 volumes:
-  mysql-data:
+  postgres:
