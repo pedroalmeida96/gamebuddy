@@ -5,21 +5,14 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: spring
-          MYSQL_DATABASE: db
+      postgres:
+        image: postgres:latest
+        environment:
+          POSTGRES_DB: db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: spring
         ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-    env:
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_NAME: db
-      DB_USERNAME: root
-      DB_PASSWORD: spring
+          - "5432:5432"
 
     steps:
       - name: Checkout code
