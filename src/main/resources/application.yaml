@@ -6,7 +6,7 @@ spring:
     name: gamebuddy
   datasource:
     password: NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE
-    url: jdbc:postgres://gamebuddy_postgresql_user:NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE@dpg-cjd17m45kgrc739blia0-a/gamebuddy_postgresql
+    url: jdbc:postgres://gamebuddy_postgresql_user:NGOIRQXqDQCQ1MtxamJyQTqmnEs0ATTE@dpg-cjd17m45kgrc739blia0-a.frankfurt-postgres.render.com/gamebuddy_postgresql
     username: gamebuddy_postgresql_user
     driverClassName: org.postgresql.Driver
   jpa:
