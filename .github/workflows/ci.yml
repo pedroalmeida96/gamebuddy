@@ -10,6 +10,7 @@ jobs:
         ports:
           - 5432:5432
         env:
+          POSTGRES_DB: gamebuddy
           POSTGRES_USER: gamebuddy
           POSTGRES_PASSWORD: password
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
