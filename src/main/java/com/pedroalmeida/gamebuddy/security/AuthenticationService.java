@@ -17,15 +17,18 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = authenticationRepository.findByLogin(username);
-        if (usuario == null) {
+        AuthUser authUser = authenticationRepository.findByLogin(username);
+        if (authUser == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return usuario;
+        return authUser;
     }
 
-    public Usuario registerUser(Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return authenticationRepository.save(usuario);
+    public AuthUser registerUser(AuthUser authUser) {
+        if (authenticationRepository.findByLogin(authUser.getUsername()) != null) {
+            throw new UserAlreadyExistsException("Username already exists in db.");
+        }
+        authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
+        return authenticationRepository.save(authUser);
     }
 }

@@ -3,11 +3,11 @@ package com.pedroalmeida.gamebuddy.security;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public class Login {
 
-    private String login;
+    private String username;
     private String password;
 
 }

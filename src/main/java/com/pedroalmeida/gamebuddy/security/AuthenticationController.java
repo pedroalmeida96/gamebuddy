@@ -25,11 +25,11 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String login(@RequestBody Login login) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPassword());
+                new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 
         Authentication authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        var usuario = (Usuario) authenticate.getPrincipal();
+        var usuario = (AuthUser) authenticate.getPrincipal();
 
         return JWT.create()
                 .withSubject(usuario.getUsername())
@@ -43,9 +43,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public Usuario registration(@RequestBody Login login) {
-        Usuario usuario = new Usuario(new Random().nextLong(), login.getLogin(), login.getPassword());
-        return authenticationService.registerUser(usuario);
+    public AuthUser registration(@RequestBody Login login) {
+        AuthUser authUser = new AuthUser(new Random().nextLong(), login.getUsername(), login.getPassword());
+        return authenticationService.registerUser(authUser);
     }
 }
 
