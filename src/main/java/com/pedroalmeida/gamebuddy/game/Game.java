@@ -35,8 +35,17 @@ public class Game {
     private int numPlayers;
 
     @ManyToMany
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "user_id")
     private List<AppUser> participants;
+
+    @Column
+    private String author;
+
+    @Column
+    private String createdBy;
+
+    @Column
+    private String updatedBy;
 
     @Version
     @Column

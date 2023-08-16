@@ -47,4 +47,9 @@ public class GameService {
         //notify all players
         gameRepository.deleteById(gameId);
     }
+
+    public void deleteAll() {
+        //notify all players
+        gameRepository.deleteAll();
+    }
 }
