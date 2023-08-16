@@ -28,7 +28,7 @@ public class FilterToken extends OncePerRequestFilter {
         if (authorizationHeader != null) {
             String token = authorizationHeader.replace("Bearer ", "");
             var subject = JWT.require(Algorithm.HMAC256(SECRET)).build().verify(token).getSubject();
-            var usuario = this.authenticationRepository.findByLogin(subject);
+            var usuario = this.authenticationRepository.findByUsername(subject);
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

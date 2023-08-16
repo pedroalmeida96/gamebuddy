@@ -17,7 +17,7 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser authUser = authenticationRepository.findByLogin(username);
+        AuthUser authUser = authenticationRepository.findByUsername(username);
         if (authUser == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
@@ -25,7 +25,7 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public AuthUser registerUser(AuthUser authUser) {
-        if (authenticationRepository.findByLogin(authUser.getUsername()) != null) {
+        if (authenticationRepository.findByUsername(authUser.getUsername()) != null) {
             throw new UserAlreadyExistsException("Username already exists in db.");
         }
         authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
