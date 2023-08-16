@@ -45,4 +45,9 @@ public class GameController {
         log.debug("Request received to delete game with ID: {}", gameId);
         gameService.deleteGame(gameId);
     }
+
+    @DeleteMapping("/delete")
+    public void deleteAll() {
+        gameService.deleteAll();
+    }
 }
