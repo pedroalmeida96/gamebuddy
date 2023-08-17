@@ -33,8 +33,8 @@ public class UserServiceTest {
     public void testGetAllUsers() {
         // Arrange
         List<AppUser> mockUserList = Arrays.asList(
-                new AppUser(1, "John"),
-                new AppUser(2, "Alice"));
+                AppUser.builder().userId(1).name("John").build(),
+                AppUser.builder().userId(2).name("Alice").build());
 
         when(userRepository.findAll()).thenReturn(mockUserList);
 
@@ -56,7 +56,7 @@ public class UserServiceTest {
     public void testGetAppUser(){
         Integer userId = 1;
         String userName = "John";
-        AppUser mockUser = new AppUser(userId, userName);
+        AppUser mockUser = AppUser.builder().userId(userId).name(userName).build();
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
         when(appUserDTOMapper.apply(mockUser)).thenReturn(AppUserDTO.builder().userId(userId).name(userName).build());
 
