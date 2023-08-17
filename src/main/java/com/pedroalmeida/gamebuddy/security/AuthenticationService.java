@@ -1,7 +1,6 @@
 package com.pedroalmeida.gamebuddy.security;
 
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
-import com.pedroalmeida.gamebuddy.appuser.AppUserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

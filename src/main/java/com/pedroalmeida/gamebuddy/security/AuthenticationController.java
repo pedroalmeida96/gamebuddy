@@ -3,7 +3,6 @@ package com.pedroalmeida.gamebuddy.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
-import com.pedroalmeida.gamebuddy.appuser.AppUserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Random;
 
 import static com.pedroalmeida.gamebuddy.security.FilterToken.SECRET;
 
