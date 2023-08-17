@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/games")
 @RequiredArgsConstructor
 public class GameController {
