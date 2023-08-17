@@ -8,6 +8,7 @@ import lombok.Getter;
 public class Login {
 
     private String username;
+    private String name;
     private String password;
 
 }

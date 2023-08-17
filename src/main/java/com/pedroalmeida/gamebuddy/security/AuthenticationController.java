@@ -2,6 +2,8 @@ package com.pedroalmeida.gamebuddy.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.pedroalmeida.gamebuddy.appuser.AppUser;
+import com.pedroalmeida.gamebuddy.appuser.AppUserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,11 +31,11 @@ public class AuthenticationController {
 
         Authentication authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        var usuario = (AuthUser) authenticate.getPrincipal();
+        var usuario = (AppUser) authenticate.getPrincipal();
 
         return JWT.create()
                 .withSubject(usuario.getUsername())
-                .withClaim("id", usuario.getId())
+                .withClaim("id", usuario.getUserId())
                 .withExpiresAt(LocalDateTime.now()
                         .plusMinutes(60)
                         .toInstant(ZoneOffset.of("+01:00"))
@@ -43,9 +45,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public AuthUser registration(@RequestBody Login login) {
-        AuthUser authUser = new AuthUser(new Random().nextLong(), login.getUsername(), login.getPassword());
-        return authenticationService.registerUser(authUser);
+    public AppUser registration(@RequestBody Login login) {
+        AppUser appUser = AppUser.builder().username(login.getUsername()).name(login.getName()).password(login.getPassword()).build();
+        return authenticationService.registerUser(appUser);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.pedroalmeida.gamebuddy.security;
 
+import com.pedroalmeida.gamebuddy.appuser.AppUser;
+import com.pedroalmeida.gamebuddy.appuser.AppUserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,18 +19,18 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser authUser = authenticationRepository.findByUsername(username);
-        if (authUser == null) {
+        AppUser appUser = authenticationRepository.findByUsername(username);
+        if (appUser == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return authUser;
+        return appUser;
     }
 
-    public AuthUser registerUser(AuthUser authUser) {
-        if (authenticationRepository.findByUsername(authUser.getUsername()) != null) {
+    public AppUser registerUser(AppUser appUser) {
+        if (authenticationRepository.findByUsername(appUser.getUsername()) != null) {
             throw new UserAlreadyExistsException("Username already exists in db.");
         }
-        authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
-        return authenticationRepository.save(authUser);
+        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+        return authenticationRepository.save(appUser);
     }
 }
