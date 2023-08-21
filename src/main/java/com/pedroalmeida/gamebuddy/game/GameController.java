@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/games")
 @RequiredArgsConstructor
 public class GameController {
@@ -20,6 +19,12 @@ public class GameController {
     public List<Game> getAllGames() {
         log.debug("Request received to get all games");
         return gameService.getAllGames();
+    }
+
+    @GetMapping("/byAuthor")
+    public List<Game> getAllGamesByAuthor(@RequestParam String author) {
+        log.debug("Request received to get all games by author: {}", author);
+        return gameService.getAllGamesByAuthor(author);
     }
 
     @GetMapping("/{gameId}")

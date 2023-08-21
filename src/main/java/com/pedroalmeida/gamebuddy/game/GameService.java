@@ -18,6 +18,10 @@ public class GameService {
         return gameRepository.findAll();
     }
 
+    public List<Game> getAllGamesByAuthor(String author) {
+        return gameRepository.findAllGamesByAuthor(author);
+    }
+
     public Optional<Game> getGameById(Integer gameId) {
         return gameRepository.findById(gameId);
     }
@@ -52,4 +56,6 @@ public class GameService {
         //notify all players
         gameRepository.deleteAll();
     }
+
+
 }
