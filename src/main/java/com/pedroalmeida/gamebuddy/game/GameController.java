@@ -21,6 +21,12 @@ public class GameController {
         return gameService.getAllGames();
     }
 
+    @GetMapping("/byAuthor")
+    public List<Game> getAllGamesByAuthor(@RequestParam String author) {
+        log.debug("Request received to get all games by author %s", author);
+        return gameService.getAllGamesByAuthor(author);
+    }
+
     @GetMapping("/{gameId}")
     public Optional<Game> getGameById(@PathVariable Integer gameId) {
         log.debug("Request received to get game with ID: {}", gameId);
