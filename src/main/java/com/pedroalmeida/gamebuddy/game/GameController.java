@@ -23,7 +23,7 @@ public class GameController {
 
     @GetMapping("/byAuthor")
     public List<Game> getAllGamesByAuthor(@RequestParam String author) {
-        log.debug("Request received to get all games by author %s", author);
+        log.debug("Request received to get all games by author: {}", author);
         return gameService.getAllGamesByAuthor(author);
     }
 
