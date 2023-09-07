@@ -14,13 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class GameServiceTest {
-
-    @Mock
-    private PlayersValidator playerValidator;
 
     @Mock
     private GameRepository gameRepository;
@@ -50,7 +46,7 @@ public class GameServiceTest {
     @Test
     public void testGetGameById() {
         // Arrange
-        String gameId = "123";
+        Integer gameId = 123;
         Game game = new Game();
         when(gameRepository.findById(gameId)).thenReturn(Optional.of(game));
 
@@ -69,7 +65,7 @@ public class GameServiceTest {
 
         // Add the AppUser object to the ArrayList
         game.setParticipants(List.of(AppUser.builder()
-                .userId("123")
+                .userId(123)
                 .name("John Doe")
                 .build()));
 
@@ -89,26 +85,28 @@ public class GameServiceTest {
     @Test
     public void testUpdateGame() {
         Game existingGame = new Game();
-        existingGame.setGameId("123");
+        existingGame.setGameId(123);
         existingGame.setGameType(GameType.FOOTBALL);
-        when(gameRepository.findById("123")).thenReturn(Optional.of(existingGame));
+
+        // Assuming you have a custom method named findByReferenceId
+        when(gameRepository.getReferenceById(123)).thenReturn(existingGame);
+        when(gameRepository.save(existingGame)).thenReturn(existingGame);
 
         Game updatedGame = new Game();
-        updatedGame.setGameId("234");
+        updatedGame.setGameId(123);
         updatedGame.setGameType(GameType.PADEL);
-
-        when(gameRepository.save(updatedGame)).thenReturn(updatedGame);
 
         Game result = gameService.updateGame(updatedGame);
 
-        verify(gameRepository).save(updatedGame);
-        assertEquals(updatedGame, result);
+        verify(gameRepository).save(existingGame);
+        assertEquals(existingGame, result);
     }
+
 
     @Test
     public void testDeleteGame() {
         // Arrange
-        String gameId = "123";
+        Integer gameId = 123;
 
         // Act
         gameService.deleteGame(gameId);

@@ -1,12 +1,23 @@
+version: '3.8'
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: gamebuddy
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
     volumes:
-      - mongodb_data:/data/db
+      - postgres:/data/postgres
     ports:
-      - 27017:27017
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
 
 volumes:
-  mongodb_data:
+  postgres:

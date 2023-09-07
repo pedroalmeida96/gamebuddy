@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/games")
 @RequiredArgsConstructor
 public class GameController {
@@ -22,8 +21,14 @@ public class GameController {
         return gameService.getAllGames();
     }
 
+    @GetMapping("/byAuthor")
+    public List<Game> getAllGamesByAuthor(@RequestParam String author) {
+        log.debug("Request received to get all games by author: {}", author);
+        return gameService.getAllGamesByAuthor(author);
+    }
+
     @GetMapping("/{gameId}")
-    public Optional<Game> getGameById(@PathVariable String gameId) {
+    public Optional<Game> getGameById(@PathVariable Integer gameId) {
         log.debug("Request received to get game with ID: {}", gameId);
         return gameService.getGameById(gameId);
     }
@@ -41,8 +46,13 @@ public class GameController {
     }
 
     @DeleteMapping("/delete/{gameId}")
-    public void deleteGame(@PathVariable String gameId) {
+    public void deleteGame(@PathVariable Integer gameId) {
         log.debug("Request received to delete game with ID: {}", gameId);
         gameService.deleteGame(gameId);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteAll() {
+        gameService.deleteAll();
     }
 }

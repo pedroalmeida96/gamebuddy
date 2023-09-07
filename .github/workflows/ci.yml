@@ -1,8 +1,28 @@
 name: Java Gradle CI
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: gamebuddy
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: gamebuddy
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code

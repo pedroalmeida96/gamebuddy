@@ -2,14 +2,26 @@ server:
   port: 8080
 
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: gamebuddy
-  output:
-    ansi:
-      enabled: always
+  application:
+    name: gamebuddy
+  datasource:
+    platform: postgres
+#    For render use (reading from render env variables)
+#    url: ${postgres_url}
+#    username: ${postgres_user}
+#    password: ${postgres_password}
+
+#   For local use
+    url: jdbc:postgresql://localhost:5432/gamebuddy
+    username: gamebuddy
+    password: password
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 logging:
   level:

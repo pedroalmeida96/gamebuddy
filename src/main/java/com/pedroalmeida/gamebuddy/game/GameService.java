@@ -12,14 +12,17 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class GameService {
-    private final PlayersValidator playerValidator;
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
-    public Optional<Game> getGameById(String gameId) {
+    public List<Game> getAllGamesByAuthor(String author) {
+        return gameRepository.findAllGamesByAuthor(author);
+    }
+
+    public Optional<Game> getGameById(Integer gameId) {
         return gameRepository.findById(gameId);
     }
 
@@ -35,12 +38,24 @@ public class GameService {
     }
 
     public Game updateGame(Game updatedGame) {
-        return gameRepository.save(updatedGame);
+        Game existingGame = gameRepository.getReferenceById(updatedGame.getGameId());
+        existingGame.setGameType(updatedGame.getGameType());
+        existingGame.setLocation(updatedGame.getLocation());
+        existingGame.setGameDateTime(updatedGame.getGameDateTime());
+        existingGame.setParticipants(updatedGame.getParticipants());
+        return gameRepository.save(existingGame);
     }
 
 
-    public void deleteGame(String gameId) {
+    public void deleteGame(Integer gameId) {
         //notify all players
         gameRepository.deleteById(gameId);
     }
+
+    public void deleteAll() {
+        //notify all players
+        gameRepository.deleteAll();
+    }
+
+
 }

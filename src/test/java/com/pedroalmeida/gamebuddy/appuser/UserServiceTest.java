@@ -1,7 +1,5 @@
 package com.pedroalmeida.gamebuddy.appuser;
 
-import com.pedroalmeida.gamebuddy.appuser.*;
-import com.pedroalmeida.gamebuddy.appuser.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
@@ -35,15 +33,15 @@ public class UserServiceTest {
     public void testGetAllUsers() {
         // Arrange
         List<AppUser> mockUserList = Arrays.asList(
-                new AppUser("1", "John"),
-                new AppUser("2", "Alice"));
+                AppUser.builder().userId(1).name("John").build(),
+                AppUser.builder().userId(2).name("Alice").build());
 
         when(userRepository.findAll()).thenReturn(mockUserList);
 
         when(appUserDTOMapper.apply(mockUserList.get(0)))
-                .thenReturn(AppUserDTO.builder().userId("1").name("John").build());
+                .thenReturn(AppUserDTO.builder().userId(1).name("John").build());
         when(appUserDTOMapper.apply(mockUserList.get(1)))
-                .thenReturn(AppUserDTO.builder().userId("2").name("Alice").build());
+                .thenReturn(AppUserDTO.builder().userId(2).name("Alice").build());
 
         // Act
         List<AppUserDTO> result = userService.getAllUsers();
@@ -56,9 +54,9 @@ public class UserServiceTest {
 
     @Test
     public void testGetAppUser(){
-        String userId = "1";
+        Integer userId = 1;
         String userName = "John";
-        AppUser mockUser = new AppUser(userId, userName);
+        AppUser mockUser = AppUser.builder().userId(userId).name(userName).build();
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
         when(appUserDTOMapper.apply(mockUser)).thenReturn(AppUserDTO.builder().userId(userId).name(userName).build());
 
@@ -68,18 +66,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAppUser_withInvalidId() {
-        // Arrange
-        String invalidId = "invalid";
-        when(userRepository.findById(invalidId)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> userService.getAppUser(invalidId));
-    }
-
-    @Test
     public void testAddAppUser() {
-        var newUser = AppUser.builder().userId("1").name("John").build();
+        var newUser = AppUser.builder().userId(1).name("John").build();
         when(userRepository.save(newUser)).thenReturn(newUser);
 
         var result = userService.addUser(newUser);

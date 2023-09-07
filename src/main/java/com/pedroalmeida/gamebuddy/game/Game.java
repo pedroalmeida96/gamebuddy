@@ -2,30 +2,60 @@ package com.pedroalmeida.gamebuddy.game;
 
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
 import com.pedroalmeida.gamebuddy.gameType.GameType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Document(collection = "games")
+@Entity
+@Setter
+@Getter
+@EntityListeners(AuditListener.class)
 public class Game {
     @Id
-    private String gameId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer gameId;
+
+    @Column
     private GameType gameType;
+
+    @Column
     private String location;
+
+    @Column
     private LocalDateTime gameDateTime;
+
+    @Column
     private boolean isFull;
+
+    @Column
     private int numPlayers;
-    @DBRef
+
+    @ManyToMany
+    @JoinColumn(name = "user_id")
     private List<AppUser> participants;
+
+    @Column
+    private String author;
+
+    @Column
+    private String createdBy;
+
+    @Column
+    private String updatedBy;
+
+    @Version
+    @Column
+    private int version;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created")
+    private Date created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated")
+    private Date updated;
 }

@@ -18,7 +18,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public AppUserDTO getAppUser(String id) {
+    public AppUserDTO getAppUser(Integer id) {
         return userRepository.findById(id)
                 .map(appUserDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException(

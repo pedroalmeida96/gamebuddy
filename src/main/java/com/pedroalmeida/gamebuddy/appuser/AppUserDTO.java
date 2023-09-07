@@ -1,10 +1,12 @@
 package com.pedroalmeida.gamebuddy.appuser;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter
 public class AppUserDTO {
-    private String userId;
+    private Integer userId;
     private String name;
+    private String username;
 }
