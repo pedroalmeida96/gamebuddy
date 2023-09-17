@@ -1,33 +1,32 @@
-import "./App.css";
-import Home from "./HomePage.tsx";
-import MyGames from "./MyGamesPage.tsx";
+import Home from "./pages/HomePage.tsx";
+import MyGames from "./pages/GamesPage.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
+        <header>
           <h1>Welcome to GameBuddy</h1>
-          <nav className="App-nav">
-            <ul className="App-nav-list">
-              <li className="App-nav-item">
+          <nav>
+            <ul>
+              <li>
                 <a href="/">Home</a>
               </li>
-              <li className="App-nav-item">
-                <a href="/my-games">My Games</a>
+              <li>
+                <a href="/games">Games</a>
               </li>
-              <li className="App-nav-item">
+              <li>
                 <a href="/settings">Settings</a>
               </li>
-              <li className="App-nav-item">
+              <li>
                 <a href="/about-us">About Us</a>
               </li>
             </ul>
           </nav>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/my-games" element={<MyGames />} />
+            <Route path="/games" element={<MyGames />} />
           </Routes>
         </header>
       </div>
