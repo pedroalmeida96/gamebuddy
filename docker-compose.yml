@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+
   postgres:
     container_name: postgres
     image: postgres
