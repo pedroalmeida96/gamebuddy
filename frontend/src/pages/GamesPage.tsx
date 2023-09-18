@@ -9,12 +9,10 @@ interface Game {
 
 function MyGamesPage() {
   const [games, setGames] = useState([]);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImlkIjoxLCJleHAiOjE2OTQ5NTk2ODd9._Tnjndk1VbNY2DakMasQ6-v0nTio88U5Uh7YUwKzNtk";
+  const token = "TOKEN_HERE";
 
   useEffect(() => {
     const headers = {
-      "Access-Control-Allow-Credentials": true,
       Authorization: token,
     };
     const url = "http://localhost:8080/api/games";
