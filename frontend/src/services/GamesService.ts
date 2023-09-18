@@ -19,7 +19,7 @@ class GameDataService {
   }
 
   delete(id: any) {
-    return http.delete<any>(`/tutorials/${id}`);
+    return http.delete<any>(`/games/delete/${id}`);
   }
 
   deleteAll() {
