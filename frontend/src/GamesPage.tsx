@@ -1,17 +1,20 @@
 import { Component, ChangeEvent } from "react";
 import GamesService from "./services/GamesService";
+import GameTypesService from "./services/GameTypesService";
 import Game from "./types/game";
+import GameType from "./types/gameType";
 
 type Props = {};
 
 type State = {
   games: Array<Game>;
+  gameTypes: Array<GameType>;
   currentGame: Game | null;
   currentIndex: number;
   gameId: any;
   location: string;
   gameDateTime: string;
-  submitted: boolean;
+  selectedGameType: string;
 };
 
 export default class GamesPage extends Component<Props, State> {
@@ -21,20 +24,23 @@ export default class GamesPage extends Component<Props, State> {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.saveGame = this.saveGame.bind(this);
     this.retrieveGames = this.retrieveGames.bind(this);
+    this.retrieveGameTypes = this.retrieveGameTypes.bind(this);
 
     this.state = {
       gameId: "",
       games: [],
+      gameTypes: [],
       currentGame: null,
       currentIndex: -1,
       location: "",
       gameDateTime: "",
-      submitted: false,
+      selectedGameType: "",
     };
   }
 
   componentDidMount() {
     this.retrieveGames();
+    this.retrieveGameTypes();
   }
 
   retrieveGames() {
@@ -50,6 +56,24 @@ export default class GamesPage extends Component<Props, State> {
       });
   }
 
+  retrieveGameTypes() {
+    GameTypesService.getAll()
+      .then((response: any) => {
+        // Assuming response.data is ["FOOTBALL", "PADEL"]
+        const gameTypes = response.data.map((sportsName: string) => ({
+          sportsName,
+        }));
+
+        this.setState({
+          gameTypes,
+        });
+        console.log("gametype", gameTypes);
+      })
+      .catch((e: Error) => {
+        console.log("Error:", e);
+      });
+  }
+
   onChangeLocation(e: ChangeEvent<HTMLInputElement>) {
     this.setState({
       location: e.target.value,
@@ -62,11 +86,22 @@ export default class GamesPage extends Component<Props, State> {
     });
   }
 
+  deleteGame(gameId: any): void {
+    GamesService.delete(gameId)
+      .then(() => {
+        console.log("Game deleted successfully");
+        this.retrieveGames();
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  }
+
   saveGame() {
     const data: Game = {
-      gameType: "FOOTBALL",
       location: this.state.location,
       gameDateTime: this.state.gameDateTime,
+      gameType: this.state.selectedGameType,
       participants: [
         {
           userId: "1",
@@ -81,7 +116,6 @@ export default class GamesPage extends Component<Props, State> {
           gameId: response.data.gameId,
           location: "",
           gameDateTime: "",
-          submitted: true,
         });
         console.log(response.data);
         this.retrieveGames();
@@ -92,7 +126,7 @@ export default class GamesPage extends Component<Props, State> {
   }
 
   render() {
-    const { games, location, gameDateTime } = this.state;
+    const { gameTypes, games, location, gameDateTime } = this.state;
 
     return (
       <div>
@@ -136,21 +170,41 @@ export default class GamesPage extends Component<Props, State> {
               name="gameDateTime"
             />
           </div>
+          <div>
+            <label htmlFor="gameType">Game Type</label>
+            <select
+              id="gameType"
+              value={this.state.selectedGameType}
+              onChange={(e) =>
+                this.setState({ selectedGameType: e.target.value })
+              }
+            >
+              <option value="">Select a game type</option>
+              {gameTypes &&
+                gameTypes.map((gameType, index) => (
+                  <option key={index} value={gameType.sportsName}>
+                    {gameType.sportsName}
+                  </option>
+                ))}
+            </select>
+          </div>
 
           <button onClick={this.saveGame}>Submit</button>
         </div>
+
+        <h2>GAMETYPES</h2>
+        <div>
+          <h3>Game Types List</h3>
+          <ul>
+            {gameTypes &&
+              gameTypes.map((gameType, index) => (
+                <li key={index}>
+                  <span>{gameType.sportsName} </span>
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
     );
-  }
-
-  deleteGame(gameId: any): void {
-    GamesService.delete(gameId)
-      .then(() => {
-        console.log("Game deleted successfully");
-        this.retrieveGames();
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
   }
 }
