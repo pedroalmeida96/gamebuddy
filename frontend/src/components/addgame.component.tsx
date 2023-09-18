@@ -14,7 +14,6 @@ export default class AddGame extends Component<Props, State> {
     this.onChangeLocation = this.onChangeLocation.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.saveGame = this.saveGame.bind(this);
-    this.newGame = this.newGame.bind(this);
 
     this.state = {
       gameId: null,
@@ -57,7 +56,6 @@ export default class AddGame extends Component<Props, State> {
           gameId: response.data.id,
           location: response.data.location,
           gameDateTime: response.data.gameDateTime,
-          submitted: true,
         });
         console.log(response.data);
       })
@@ -66,53 +64,35 @@ export default class AddGame extends Component<Props, State> {
       });
   }
 
-  newGame() {
-    this.setState({
-      gameId: null,
-      location: "",
-      gameDateTime: "",
-      submitted: false,
-    });
-  }
-
   render() {
-    const { submitted, location, gameDateTime } = this.state;
+    const { location, gameDateTime } = this.state;
 
     return (
       <div>
-        {submitted ? (
-          <div>
-            <h4>You submitted successfully!</h4>
-            <button onClick={this.newGame}>Add</button>
-          </div>
-        ) : (
-          <div>
-            <div>
-              <label htmlFor="location">Location</label>
-              <input
-                type="text"
-                id="location"
-                required
-                value={location}
-                onChange={this.onChangeLocation}
-                name="location"
-              />
-            </div>
+        <div>
+          <label htmlFor="location">Location</label>
+          <input
+            type="text"
+            id="location"
+            required
+            value={location}
+            onChange={this.onChangeLocation}
+            name="location"
+          />
+        </div>
 
-            <div>
-              <label htmlFor="gameDateTime">Game DateTime</label>
-              <input
-                type="text"
-                id="gameDateTime"
-                required
-                value={gameDateTime}
-                onChange={this.onChangeDate}
-                name="gameDateTime"
-              />
-            </div>
-            <button onClick={this.saveGame}>Submit</button>
-          </div>
-        )}
+        <div>
+          <label htmlFor="gameDateTime">Game DateTime</label>
+          <input
+            type="text"
+            id="gameDateTime"
+            required
+            value={gameDateTime}
+            onChange={this.onChangeDate}
+            name="gameDateTime"
+          />
+        </div>
+        <button onClick={this.saveGame}>Submit</button>
       </div>
     );
   }
