@@ -1,5 +1,5 @@
-import Home from "./pages/HomePage.tsx";
-import MyGames from "./pages/GamesPage.tsx";
+import Home from "./HomePage.tsx";
+import MyGames from "./GamesPage.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
