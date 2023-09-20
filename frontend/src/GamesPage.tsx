@@ -4,7 +4,9 @@ import GameTypesService from "./services/GameTypesService";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 
-type Props = {};
+type Props = {
+  token: string | null;
+};
 
 type State = {
   games: Array<Game>;
@@ -133,6 +135,7 @@ export default class GamesPage extends Component<Props, State> {
         <h2>GAMES</h2>
         <div>
           <h3>Games List</h3>
+          <div>Token : {this.props.token}</div>
           <ul>
             {games &&
               games.map((game, index) => (
