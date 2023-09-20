@@ -25,6 +25,7 @@ export default class GamesPage extends Component<Props, State> {
     this.saveGame = this.saveGame.bind(this);
     this.retrieveGames = this.retrieveGames.bind(this);
     this.retrieveGameTypes = this.retrieveGameTypes.bind(this);
+    this.selectGame = this.selectGame.bind(this);
 
     this.state = {
       gameId: "",
@@ -135,6 +136,7 @@ export default class GamesPage extends Component<Props, State> {
           gameId: response.data.gameId,
           location: "",
           gameDateTime: "",
+          selectedGameType: ""
         });
         console.log(response.data);
         this.retrieveGames();
@@ -144,8 +146,17 @@ export default class GamesPage extends Component<Props, State> {
       });
   }
 
+  selectGame(game: Game) {
+    this.setState({
+      currentGame: game,
+      location: game.location,
+      gameDateTime: game.gameDateTime,
+      selectedGameType: game.gameType,
+    });
+  }
+
   render() {
-    const { gameTypes, games, location, gameDateTime } = this.state;
+    const { gameTypes, games, location, gameDateTime, currentGame } = this.state;
 
     return (
       <div>
@@ -156,8 +167,11 @@ export default class GamesPage extends Component<Props, State> {
             {games &&
               games.map((game, index) => (
                 <li key={index}>
-                  <span>{game.gameId} ,{game.location} , {game.gameDateTime}</span>
+                  <span>
+                    {game.gameId}, {game.location}, {game.gameDateTime}
+                  </span>
                   <button onClick={() => this.deleteGame(game.gameId)}>Delete</button>
+                  <button onClick={() => this.selectGame(game)}>Edit</button>
                 </li>
               ))}
           </ul>
@@ -184,6 +198,54 @@ export default class GamesPage extends Component<Props, State> {
             </select>
           </div>
           <button onClick={this.saveGame}>Submit</button>
+        </div>
+        <div>
+          {currentGame && ( // Render the update fields if a game is selected
+            <div>
+              <h3>Edit Game</h3>
+              <div>
+                <label htmlFor="location">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  required
+                  value={location}
+                  onChange={this.onChangeLocation}
+                  name="location"
+                />
+              </div>
+              <div>
+                <label htmlFor="gameDateTime">Game DateTime</label>
+                <input
+                  type="datetime-local"
+                  id="gameDateTime"
+                  required
+                  value={gameDateTime}
+                  onChange={this.onChangeDate}
+                  name="gameDateTime"
+                />
+              </div>
+              <div>
+                <label htmlFor="gameType">Game Type</label>
+                <select
+                  id="gameType"
+                  value={this.state.selectedGameType}
+                  onChange={(e) =>
+                    this.setState({ selectedGameType: e.target.value })
+                  }
+                >
+                  <option value="">Select a game type</option>
+                  {gameTypes &&
+                    gameTypes.map((gameType, index) => (
+                      <option key={index} value={gameType.sportsName}>
+                        {gameType.sportsName}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <button onClick={this.saveGame}>Update</button>
+            </div>
+          )}
         </div>
 
         <h2>GAMETYPES</h2>
