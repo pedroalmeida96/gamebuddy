@@ -5,10 +5,9 @@ type SetIsLoggedInType = (value: boolean) => void;
 
 interface LoginProps {
   setIsLoggedIn: SetIsLoggedInType;
-  setToken: (token: string | null) => void;
 }
 
-function Login({ setIsLoggedIn, setToken }: LoginProps) {
+function Login({ setIsLoggedIn }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,9 +21,8 @@ function Login({ setIsLoggedIn, setToken }: LoginProps) {
       .post("http://localhost:8080/login", requestData)
       .then((response) => {
         if (response.status === 200) {
+          localStorage.setItem("token", response.data);
           setIsLoggedIn(true);
-          console.log(response.data);
-          setToken(response.data);
         } else {
           console.error("Login failed.");
         }
@@ -37,18 +35,8 @@ function Login({ setIsLoggedIn, setToken }: LoginProps) {
   return (
     <div>
       <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
       <button onClick={handleLogin}>Login</button>
     </div>
   );

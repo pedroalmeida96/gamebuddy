@@ -5,7 +5,6 @@ import Game from "./types/game";
 import GameType from "./types/gameType";
 
 type Props = {
-  token: string | null;
 };
 
 type State = {
@@ -135,17 +134,12 @@ export default class GamesPage extends Component<Props, State> {
         <h2>GAMES</h2>
         <div>
           <h3>Games List</h3>
-          <div>Token : {this.props.token}</div>
           <ul>
             {games &&
               games.map((game, index) => (
                 <li key={index}>
-                  <span>
-                    {game.gameId} ,{game.location} , {game.gameDateTime}
-                  </span>
-                  <button onClick={() => this.deleteGame(game.gameId)}>
-                    Delete
-                  </button>
+                  <span>{game.gameId} ,{game.location} , {game.gameDateTime}</span>
+                  <button onClick={() => this.deleteGame(game.gameId)}>Delete</button>
                 </li>
               ))}
           </ul>
@@ -153,35 +147,15 @@ export default class GamesPage extends Component<Props, State> {
         <div>
           <div>
             <label htmlFor="location">Location</label>
-            <input
-              type="text"
-              id="location"
-              required
-              value={location}
-              onChange={this.onChangeLocation}
-              name="location"
-            />
+            <input type="text" id="location" required value={location} onChange={this.onChangeLocation} name="location" />
           </div>
           <div>
             <label htmlFor="gameDateTime">Game DateTime</label>
-            <input
-              type="datetime-local"
-              id="gameDateTime"
-              required
-              value={gameDateTime}
-              onChange={this.onChangeDate}
-              name="gameDateTime"
-            />
+            <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={this.onChangeDate} name="gameDateTime" />
           </div>
           <div>
             <label htmlFor="gameType">Game Type</label>
-            <select
-              id="gameType"
-              value={this.state.selectedGameType}
-              onChange={(e) =>
-                this.setState({ selectedGameType: e.target.value })
-              }
-            >
+            <select id="gameType" value={this.state.selectedGameType} onChange={(e) => this.setState({ selectedGameType: e.target.value })}>
               <option value="">Select a game type</option>
               {gameTypes &&
                 gameTypes.map((gameType, index) => (
@@ -191,7 +165,6 @@ export default class GamesPage extends Component<Props, State> {
                 ))}
             </select>
           </div>
-
           <button onClick={this.saveGame}>Submit</button>
         </div>
 

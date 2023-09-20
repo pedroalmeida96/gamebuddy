@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState<string | null>("");
 
   return (
     <Router>
@@ -35,16 +34,8 @@ function App() {
           </nav>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/games"
-              element={<MyGames token={token} />} // Pass the token as a prop
-            />
-            <Route
-              path="/login"
-              element={
-                <Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
-              }
-            />
+            <Route path="/games" element={<MyGames />} />
+            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}/>
           </Routes>
         </header>
       </div>
