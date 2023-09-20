@@ -1,8 +1,7 @@
 import { Component, ChangeEvent } from "react";
-import GamesService from "./services/GamesService";
-import GameTypesService from "./services/GameTypesService";
 import Game from "./types/game";
 import GameType from "./types/gameType";
+import axios from "axios";
 
 type Props = {
 };
@@ -45,7 +44,12 @@ export default class GamesPage extends Component<Props, State> {
   }
 
   retrieveGames() {
-    GamesService.getAll()
+    axios.get("http://localhost:8080/api/games", {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-type": "application/json"
+      }
+    })
       .then((response: any) => {
         this.setState({
           games: response.data,
@@ -58,9 +62,13 @@ export default class GamesPage extends Component<Props, State> {
   }
 
   retrieveGameTypes() {
-    GameTypesService.getAll()
+    axios.get("http://localhost:8080/api/gameTypes", {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-type": "application/json"
+      }
+    })
       .then((response: any) => {
-        // Assuming response.data is ["FOOTBALL", "PADEL"]
         const gameTypes = response.data.map((sportsName: string) => ({
           sportsName,
         }));
@@ -88,7 +96,12 @@ export default class GamesPage extends Component<Props, State> {
   }
 
   deleteGame(gameId: any): void {
-    GamesService.delete(gameId)
+    axios.delete("http://localhost:8080/api/games/delete/" + gameId, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-type": "application/json"
+      }
+    })
       .then(() => {
         console.log("Game deleted successfully");
         this.retrieveGames();
@@ -111,7 +124,12 @@ export default class GamesPage extends Component<Props, State> {
       ],
     };
 
-    GamesService.create(data)
+    axios.post("http://localhost:8080/api/games/create", data, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-type": "application/json"
+      }
+    })
       .then((response: any) => {
         this.setState({
           gameId: response.data.gameId,
