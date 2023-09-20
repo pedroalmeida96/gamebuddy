@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Home from "./HomePage.tsx";
-import MyGames from "./GamesPage.tsx";
+import GamesPage from "./GamesPage.tsx";
 import Login from "./Login.tsx"; // Create a Login component
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
@@ -34,8 +34,8 @@ function App() {
           </nav>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/games" element={<MyGames />} />
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />}/>
+            <Route path="/games" element={<GamesPage />} />
+            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           </Routes>
         </header>
       </div>
