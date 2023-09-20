@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Home from "./HomePage.tsx";
 import GamesPage from "./GamesPage.tsx";
 import Login from "./Login.tsx"; // Create a Login component
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -14,12 +13,11 @@ function App() {
           <h1>Welcome to GameBuddy</h1>
           <nav>
             <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/games">Games </Link>
-              </li>
+              {isLoggedIn && (
+                <li>
+                  <Link to="/games">Games</Link>
+                </li>
+              )}
               {!isLoggedIn && (
                 <>
                   <li>
@@ -33,8 +31,9 @@ function App() {
             </ul>
           </nav>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/games" element={<GamesPage />} />
+            {isLoggedIn && (
+              <Route path="/games" element={<GamesPage />} />
+            )}
             <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           </Routes>
         </header>
