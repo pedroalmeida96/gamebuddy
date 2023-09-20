@@ -206,34 +206,15 @@ export default class GamesPage extends Component<Props, State> {
               <div>
                 <label htmlFor="location">Location</label>
                 <input
-                  type="text"
-                  id="location"
-                  required
-                  value={location}
-                  onChange={this.onChangeLocation}
-                  name="location"
-                />
+                  type="text" id="location" required value={location} onChange={this.onChangeLocation} name="location" />
               </div>
               <div>
                 <label htmlFor="gameDateTime">Game DateTime</label>
-                <input
-                  type="datetime-local"
-                  id="gameDateTime"
-                  required
-                  value={gameDateTime}
-                  onChange={this.onChangeDate}
-                  name="gameDateTime"
-                />
+                <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={this.onChangeDate} name="gameDateTime" />
               </div>
               <div>
                 <label htmlFor="gameType">Game Type</label>
-                <select
-                  id="gameType"
-                  value={this.state.selectedGameType}
-                  onChange={(e) =>
-                    this.setState({ selectedGameType: e.target.value })
-                  }
-                >
+                <select id="gameType" value={this.state.selectedGameType} onChange={(e) => this.setState({ selectedGameType: e.target.value })} >
                   <option value="">Select a game type</option>
                   {gameTypes &&
                     gameTypes.map((gameType, index) => (
