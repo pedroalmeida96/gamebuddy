@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
@@ -7,12 +7,13 @@ import AppUser from "./types/appuser";
 type GamesListProps = {
     gamesList: Array<Game>;
     gameTypes: Array<GameType>;
-    gameUsers: Array<AppUser>;
+    users: Array<AppUser>;
     retrieveGames: () => void;
 };
 
-function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
+function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProps) {
     const [editingGame, setEditingGame] = useState<Game | null>(null);
+    const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
 
     const editGame = (game: Game) => {
         console.log(game);
@@ -40,24 +41,11 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
         setEditingGame(null);
     };
 
-    const updateGame = () => {
+    const updateGame = (updatedGame: Game) => {
         if (editingGame) {
-            const data: Game = {
-                gameId: editingGame.gameId,
-                location: editingGame.location,
-                gameDateTime: editingGame.gameDateTime,
-                gameType: editingGame.gameType,
-                participants: [
-                    {
-                        userId: "1",
-                        name: "Alice",
-                    },
-                ],
-            };
-
             axios
                 .put(
-                    "http://localhost:8080/api/games/update", data,
+                    "http://localhost:8080/api/games/update", updatedGame,
                     {
                         headers: {
                             Authorization: localStorage.getItem("token"),
@@ -87,6 +75,18 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
             });
         }
     };
+
+    function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
+        const selectedIds = Array.from(
+            event.target.selectedOptions,
+            (option) => option.value
+        );
+        const selectedUserObjects = users.filter((user) => {
+            console.log(`user.userId: ${user.userId}, selectedIds: ${selectedIds}`);
+            return selectedIds.includes(user.userId.toString());
+        });
+        setSelectedUsers(selectedUserObjects);
+    }
 
     return (
         <div>
@@ -125,6 +125,16 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
                         <input type="datetime-local" id="gameDateTime" name="gameDateTime" value={editingGame.gameDateTime} onChange={handleInputChange} />
                     </div>
                     <div>
+                        <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange}>
+                            {users &&
+                                users.map((user, index) => (
+                                    <option key={index} value={user.userId}>
+                                        {user.userId} {user.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+                    <div>
                         <label htmlFor="gameType">Game Type</label>
                         <select id="gameType" value={editingGame.gameType} onChange={handleInputChange} name="gameType">
                             <option value="">Select a game type</option>
@@ -136,7 +146,16 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
                                 ))}
                         </select>
                     </div>
-                    <button onClick={updateGame}>Update</button>
+                    <button onClick={() => {
+                        const updatedGame: Game = {
+                            gameId: editingGame.gameId,
+                            location: editingGame.location,
+                            gameDateTime: editingGame.gameDateTime,
+                            gameType: editingGame.gameType,
+                            participants: selectedUsers,
+                        };
+                        updateGame(updatedGame);
+                    }}>Update</button>
                     <button onClick={cancelEdit}>Cancel</button>
                 </div>
             )}

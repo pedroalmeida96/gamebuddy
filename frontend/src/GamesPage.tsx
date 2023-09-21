@@ -132,7 +132,7 @@ function GamesPage(_props: GamesPageProps) {
     <div>
       <h2>GAMES</h2>
       <button onClick={toggleCreateFields}>Create New Game</button>
-      <GamesList gamesList={games} retrieveGames={retrieveGames} gameUsers={users} gameTypes={gameTypes} />
+      <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
       {isCreatingNewGame && (
         <div>
           <h3>Create New Game</h3>
