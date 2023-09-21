@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
+import AppUser from "./types/appuser";
 
 type GamesListProps = {
     gamesList: Array<Game>;
     gameTypes: Array<GameType>;
+    gameUsers: Array<AppUser>;
     retrieveGames: () => void;
 };
 
@@ -40,7 +42,6 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
 
     const updateGame = () => {
         if (editingGame) {
-
             const data: Game = {
                 gameId: editingGame.gameId,
                 location: editingGame.location,
@@ -95,7 +96,13 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
                     gamesList.map((game, index) => (
                         <li key={index}>
                             <span>
-                                {game.gameId}, {game.location}, {game.gameDateTime}, {game.gameType}
+                                {game.gameId}, {game.location}, {game.gameDateTime}, {game.gameType}, Participants:{" "}
+                                {game.participants.map((user, participantIndex) => (
+                                    <span key={participantIndex}>
+                                        {user.userId} - {user.name}
+                                        {participantIndex < game.participants.length - 1 && ", "}
+                                    </span>
+                                ))}
                             </span>
                             <button onClick={() => deleteGame(game.gameId)}>Delete</button>
                             <button onClick={() => editGame(game)}>Edit</button>

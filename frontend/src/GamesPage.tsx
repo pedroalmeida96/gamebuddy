@@ -4,21 +4,25 @@ import Game from "./types/game";
 import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
 import GameTypes from "./gamestypelist.component";
+import AppUser from "./types/appuser";
 
 type GamesPageProps = {};
 
-function GamesPage(props: GamesPageProps) {
+function GamesPage(_props: GamesPageProps) {
   const [games, setGames] = useState<Array<Game>>([]);
   const [gameTypes, setGameTypes] = useState<Array<GameType>>([]);
-  const [gameId, setGameId] = useState<any>("");
+  const [users, setusers] = useState<Array<AppUser>>([]);
+  const [, setGameId] = useState<any>("");
   const [location, setLocation] = useState<string>("");
   const [gameDateTime, setGameDateTime] = useState<string>("");
   const [selectedGameType, setSelectedGameType] = useState<string>("");
+  const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
   const [isCreatingNewGame, setIsCreatingNewGame] = useState<boolean>(false);
 
   useEffect(() => {
     retrieveGames();
     retrieveGameTypes();
+    retrieveUsers();
   }, []);
 
   const toggleCreateFields = () => {
@@ -36,6 +40,23 @@ function GamesPage(props: GamesPageProps) {
       })
       .then((response: any) => {
         setGames(response.data);
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+
+  const retrieveUsers = () => {
+    axios
+      .get("http://localhost:8080/api/users", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          "Content-type": "application/json",
+        },
+      })
+      .then((response: any) => {
+        setusers(response.data);
         console.log(response.data);
       })
       .catch((e: Error) => {
@@ -72,21 +93,9 @@ function GamesPage(props: GamesPageProps) {
   };
 
 
-  const saveGame = () => {
-    const data: Game = {
-      location: location,
-      gameDateTime: gameDateTime,
-      gameType: selectedGameType,
-      participants: [
-        {
-          userId: "1",
-          name: "Alice",
-        },
-      ],
-    };
-
+  const saveGame = (game: Game) => {
     axios
-      .post("http://localhost:8080/api/games/create", data, {
+      .post("http://localhost:8080/api/games/create", game, {
         headers: {
           Authorization: localStorage.getItem("token"),
           "Content-type": "application/json",
@@ -97,6 +106,7 @@ function GamesPage(props: GamesPageProps) {
         setLocation("");
         setGameDateTime("");
         setSelectedGameType("");
+        setSelectedUsers([]); // Reset selected users
         console.log(response.data);
         retrieveGames();
       })
@@ -106,11 +116,23 @@ function GamesPage(props: GamesPageProps) {
   };
 
 
+  function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
+    const selectedIds = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    const selectedUserObjects = users.filter((user) => {
+      console.log(`user.userId: ${user.userId}, selectedIds: ${selectedIds}`);
+      return selectedIds.includes(user.userId.toString());
+    });
+    setSelectedUsers(selectedUserObjects);
+  }
+
   return (
     <div>
       <h2>GAMES</h2>
       <button onClick={toggleCreateFields}>Create New Game</button>
-      <GamesList gamesList={games} retrieveGames={retrieveGames} gameTypes={gameTypes} />
+      <GamesList gamesList={games} retrieveGames={retrieveGames} gameUsers={users} gameTypes={gameTypes} />
       {isCreatingNewGame && (
         <div>
           <h3>Create New Game</h3>
@@ -136,7 +158,27 @@ function GamesPage(props: GamesPageProps) {
                     ))}
                 </select>
               </div>
-              <button onClick={saveGame}>Create</button>
+              <div>
+                <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange}>
+                  {users &&
+                    users.map((user, index) => (
+                      <option key={index} value={user.userId}>
+                        {user.userId} {user.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <button onClick={() => {
+                const newGame: Game = {
+                  location: location,
+                  gameDateTime: gameDateTime,
+                  gameType: selectedGameType,
+                  participants: selectedUsers,
+                };
+                console.log(newGame);
+                saveGame(newGame);
+              }}>Create</button>
             </div>
           </div>
         </div>
