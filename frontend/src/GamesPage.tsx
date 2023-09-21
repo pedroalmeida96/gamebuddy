@@ -1,6 +1,7 @@
 import { Component, ChangeEvent } from "react";
 import Game from "./types/game";
 import GameType from "./types/gameType";
+import GameTypeList from "./gametype.component";
 import axios from "axios";
 
 type Props = {
@@ -15,6 +16,8 @@ type State = {
   location: string;
   gameDateTime: string;
   selectedGameType: string;
+  isCreatingNewGame: boolean;
+  isEditingGame: boolean;
 };
 
 export default class GamesPage extends Component<Props, State> {
@@ -36,12 +39,29 @@ export default class GamesPage extends Component<Props, State> {
       location: "",
       gameDateTime: "",
       selectedGameType: "",
+      isCreatingNewGame: false,
+      isEditingGame: false,
     };
   }
 
   componentDidMount() {
     this.retrieveGames();
     this.retrieveGameTypes();
+  }
+
+  toggleCreateFields() {
+    this.setState({
+      isCreatingNewGame: !this.state.isCreatingNewGame,
+      isEditingGame: false,
+      currentGame: null,
+    });
+  }
+
+  toggleEditFields() {
+    this.setState({
+      isEditingGame: !this.state.isEditingGame,
+      isCreatingNewGame: false,
+    });
   }
 
   retrieveGames() {
@@ -156,12 +176,14 @@ export default class GamesPage extends Component<Props, State> {
   }
 
   render() {
-    const { gameTypes, games, location, gameDateTime, currentGame } = this.state;
+    const { gameTypes, games, location, gameDateTime, currentGame, isCreatingNewGame, isEditingGame, } = this.state;
 
     return (
       <div>
         <h2>GAMES</h2>
         <div>
+          <button onClick={() => this.toggleCreateFields()}>Create New Game</button>
+
           <h3>Games List</h3>
           <ul>
             {games &&
@@ -176,31 +198,39 @@ export default class GamesPage extends Component<Props, State> {
               ))}
           </ul>
         </div>
+        {isCreatingNewGame && ( // Render create fields if isCreatingNewGame is true
+          <div>
+            <h3>Create New Game</h3>
+            <div>
+              <div>
+                <div>
+                  <label htmlFor="location">Location</label>
+                  <input type="text" id="location" required value={location} onChange={this.onChangeLocation} name="location" />
+                </div>
+                <div>
+                  <label htmlFor="gameDateTime">Game DateTime</label>
+                  <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={this.onChangeDate} name="gameDateTime" />
+                </div>
+                <div>
+                  <label htmlFor="gameType">Game Type</label>
+                  <select id="gameType" value={this.state.selectedGameType} onChange={(e) => this.setState({ selectedGameType: e.target.value })}>
+                    <option value="">Select a game type</option>
+                    {gameTypes &&
+                      gameTypes.map((gameType, index) => (
+                        <option key={index} value={gameType.sportsName}>
+                          {gameType.sportsName}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <button onClick={() => this.saveGame()}>Create</button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div>
-          <div>
-            <label htmlFor="location">Location</label>
-            <input type="text" id="location" required value={location} onChange={this.onChangeLocation} name="location" />
-          </div>
-          <div>
-            <label htmlFor="gameDateTime">Game DateTime</label>
-            <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={this.onChangeDate} name="gameDateTime" />
-          </div>
-          <div>
-            <label htmlFor="gameType">Game Type</label>
-            <select id="gameType" value={this.state.selectedGameType} onChange={(e) => this.setState({ selectedGameType: e.target.value })}>
-              <option value="">Select a game type</option>
-              {gameTypes &&
-                gameTypes.map((gameType, index) => (
-                  <option key={index} value={gameType.sportsName}>
-                    {gameType.sportsName}
-                  </option>
-                ))}
-            </select>
-          </div>
-          <button onClick={this.saveGame}>Submit</button>
-        </div>
-        <div>
-          {currentGame && ( // Render the update fields if a game is selected
+          {currentGame && isEditingGame && (
             <div>
               <h3>Edit Game</h3>
               <div>
@@ -229,19 +259,9 @@ export default class GamesPage extends Component<Props, State> {
           )}
         </div>
 
-        <h2>GAMETYPES</h2>
-        <div>
-          <h3>Game Types List</h3>
-          <ul>
-            {gameTypes &&
-              gameTypes.map((gameType, index) => (
-                <li key={index}>
-                  <span>{gameType.sportsName} </span>
-                </li>
-              ))}
-          </ul>
-        </div>
+        <GameTypeList gameTypeList={this.state.gameTypes} />
       </div>
     );
   }
 }
+
