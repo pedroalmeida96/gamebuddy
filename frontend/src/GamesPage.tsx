@@ -1,8 +1,9 @@
 import { Component, ChangeEvent } from "react";
 import Game from "./types/game";
 import GameType from "./types/gameType";
-import GameTypeList from "./gametype.component";
+import GameTypes from "./gamestypelist.component copy";
 import axios from "axios";
+import GamesList from "./gameslist.component";
 
 type Props = {
 };
@@ -116,22 +117,6 @@ export default class GamesPage extends Component<Props, State> {
     });
   }
 
-  deleteGame(gameId: any): void {
-    axios.delete("http://localhost:8080/api/games/delete/" + gameId, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-        "Content-type": "application/json"
-      }
-    })
-      .then(() => {
-        console.log("Game deleted successfully");
-        this.retrieveGames();
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  }
-
   saveGame() {
     const data: Game = {
       location: this.state.location,
@@ -181,23 +166,8 @@ export default class GamesPage extends Component<Props, State> {
     return (
       <div>
         <h2>GAMES</h2>
-        <div>
-          <button onClick={() => this.toggleCreateFields()}>Create New Game</button>
-
-          <h3>Games List</h3>
-          <ul>
-            {games &&
-              games.map((game, index) => (
-                <li key={index}>
-                  <span>
-                    {game.gameId}, {game.location}, {game.gameDateTime}
-                  </span>
-                  <button onClick={() => this.deleteGame(game.gameId)}>Delete</button>
-                  <button onClick={() => this.selectGame(game)}>Edit</button>
-                </li>
-              ))}
-          </ul>
-        </div>
+        <button onClick={() => this.toggleCreateFields()}>Create New Game</button>
+        <GamesList gamesList={games} retrieveGames={this.retrieveGames} />
         {isCreatingNewGame && ( // Render create fields if isCreatingNewGame is true
           <div>
             <h3>Create New Game</h3>
@@ -259,7 +229,7 @@ export default class GamesPage extends Component<Props, State> {
           )}
         </div>
 
-        <GameTypeList gameTypeList={this.state.gameTypes} />
+        <GameTypes gameTypeList={this.state.gameTypes} />
       </div>
     );
   }
