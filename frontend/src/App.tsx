@@ -34,7 +34,9 @@ function App() {
             {isLoggedIn && (
               <Route path="/games" element={<GamesPage />} />
             )}
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+            {!isLoggedIn && (
+              <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+            )}
           </Routes>
         </header>
       </div>
