@@ -10,13 +10,11 @@ type GamesPageProps = {};
 function GamesPage(props: GamesPageProps) {
   const [games, setGames] = useState<Array<Game>>([]);
   const [gameTypes, setGameTypes] = useState<Array<GameType>>([]);
-  const [currentGame, setCurrentGame] = useState<Game | null>(null);
   const [gameId, setGameId] = useState<any>("");
   const [location, setLocation] = useState<string>("");
   const [gameDateTime, setGameDateTime] = useState<string>("");
   const [selectedGameType, setSelectedGameType] = useState<string>("");
   const [isCreatingNewGame, setIsCreatingNewGame] = useState<boolean>(false);
-  const [isEditingGame, setIsEditingGame] = useState<boolean>(false);
 
   useEffect(() => {
     retrieveGames();
@@ -25,8 +23,6 @@ function GamesPage(props: GamesPageProps) {
 
   const toggleCreateFields = () => {
     setIsCreatingNewGame(!isCreatingNewGame);
-    setIsEditingGame(false);
-    setCurrentGame(null);
   };
 
 

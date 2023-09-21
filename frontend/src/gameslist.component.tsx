@@ -107,33 +107,15 @@ function GamesList({ gamesList, gameTypes, retrieveGames }: GamesListProps) {
                     <h3>Edit Game</h3>
                     <div>
                         <label htmlFor="gameId">Game Id</label>
-                        <input
-                            type="text"
-                            id="gameId"
-                            required
-                            value={editingGame.gameId}
-                            name="gameId"
-                        />
+                        <span id="gameIdText">{editingGame.gameId}</span>
                     </div>
                     <div>
                         <label htmlFor="location">Location</label>
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            value={editingGame.location}
-                            onChange={handleInputChange}
-                        />
+                        <input type="text" id="location" name="location" value={editingGame.location} onChange={handleInputChange} />
                     </div>
                     <div>
                         <label htmlFor="gameDateTime">Game DateTime</label>
-                        <input
-                            type="datetime-local"
-                            id="gameDateTime"
-                            name="gameDateTime"
-                            value={editingGame.gameDateTime}
-                            onChange={handleInputChange}
-                        />
+                        <input type="datetime-local" id="gameDateTime" name="gameDateTime" value={editingGame.gameDateTime} onChange={handleInputChange} />
                     </div>
                     <div>
                         <label htmlFor="gameType">Game Type</label>
