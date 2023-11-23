@@ -36,7 +36,7 @@ public class AuthenticationController {
                 .withClaim("id", usuario.getUserId())
                 .withExpiresAt(LocalDateTime.now()
                         .plusMinutes(60)
-                        .toInstant(ZoneOffset.of("+01:00"))
+                        .toInstant(ZoneOffset.of("+00:00"))
                 )
                 .sign(Algorithm.HMAC256(SECRET));
 
