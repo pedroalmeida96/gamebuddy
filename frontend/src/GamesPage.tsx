@@ -5,6 +5,7 @@ import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
 import GameTypes from "./gamestypelist.component";
 import AppUser from "./types/appuser";
+import CreateGameModal from "./creategame.modal";
 
 type GamesPageProps = {};
 
@@ -13,10 +14,6 @@ function GamesPage(_props: GamesPageProps) {
   const [gameTypes, setGameTypes] = useState<Array<GameType>>([]);
   const [users, setusers] = useState<Array<AppUser>>([]);
   const [, setGameId] = useState<any>("");
-  const [location, setLocation] = useState<string>("");
-  const [gameDateTime, setGameDateTime] = useState<string>("");
-  const [selectedGameType, setSelectedGameType] = useState<string>("");
-  const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
   const [isCreatingNewGame, setIsCreatingNewGame] = useState<boolean>(false);
 
   useEffect(() => {
@@ -128,61 +125,16 @@ function GamesPage(_props: GamesPageProps) {
     setSelectedUsers(selectedUserObjects);
   }
 
+  const closeModal = () => {
+    setIsCreatingNewGame(false);
+  };
+
   return (
     <div>
       <h2>GAMES</h2>
       <button onClick={toggleCreateFields}>Create New Game</button>
+      <CreateGameModal isOpen={isCreatingNewGame} onClose={closeModal} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
       <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
-      {isCreatingNewGame && (
-        <div>
-          <h3>Create New Game</h3>
-          <div>
-            <div>
-              <div>
-                <label htmlFor="location">Location</label>
-                <input type="text" id="location" required value={location} onChange={onChangeLocation} name="location" />
-              </div>
-              <div>
-                <label htmlFor="gameDateTime">Game DateTime</label>
-                <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={onChangeDate} name="gameDateTime" />
-              </div>
-              <div>
-                <label htmlFor="gameType">Game Type</label>
-                <select id="gameType" value={selectedGameType} onChange={(e) => setSelectedGameType(e.target.value)}>
-                  <option value="">Select a game type</option>
-                  {gameTypes &&
-                    gameTypes.map((gameType, index) => (
-                      <option key={index} value={gameType.sportsName}>
-                        {gameType.sportsName}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div>
-                <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange}>
-                  {users &&
-                    users.map((user, index) => (
-                      <option key={index} value={user.userId}>
-                        {user.userId} {user.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              <button onClick={() => {
-                const newGame: Game = {
-                  location: location,
-                  gameDateTime: gameDateTime,
-                  gameType: selectedGameType,
-                  participants: selectedUsers,
-                };
-                console.log(newGame);
-                saveGame(newGame);
-              }}>Create</button>
-            </div>
-          </div>
-        </div>
-      )}
       <GameTypes gameTypeList={gameTypes} />
     </div>
   );
