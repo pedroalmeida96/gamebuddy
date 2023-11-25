@@ -62,7 +62,7 @@ public class GameServiceTest {
     public void testCreateGame() {
         // Arrange
         Game game = new Game();
-
+        game.setGameType(GameType.FOOTBALL);
         // Add the AppUser object to the ArrayList
         game.setParticipants(List.of(AppUser.builder()
                 .userId(123)
