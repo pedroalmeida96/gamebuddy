@@ -1,5 +1,4 @@
-// CreateGameModal.tsx
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import axios from "axios";
 import Modal from "react-modal";
 import Game from "./types/game";
@@ -14,13 +13,7 @@ interface CreateGameModalProps {
     users: Array<AppUser>;
 }
 
-const CreateGameModal: React.FC<CreateGameModalProps> = ({
-    isOpen,
-    onClose,
-    retrieveGames,
-    gameTypes,
-    users,
-}) => {
+function CreateGameModal(props: CreateGameModalProps) {
     const [location, setLocation] = useState<string>("");
     const [gameDateTime, setGameDateTime] = useState<string>("");
     const [selectedGameType, setSelectedGameType] = useState<string>("");
@@ -48,8 +41,8 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({
                 setSelectedGameType("");
                 setSelectedUsers([]);
                 console.log(response.data);
-                retrieveGames();
-                onClose(); // Close the modal after creating the game
+                props.retrieveGames();
+                props.onClose(); // Close the modal after creating the game
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -61,7 +54,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({
             event.target.selectedOptions,
             (option) => option.value
         );
-        const selectedUserObjects = users.filter((user) =>
+        const selectedUserObjects = props.users.filter((user) =>
             selectedIds.includes(user.userId.toString())
         );
         setSelectedUsers(selectedUserObjects);
@@ -69,8 +62,8 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({
 
     return (
         <Modal
-            isOpen={isOpen}
-            onRequestClose={onClose}
+            isOpen={props.isOpen}
+            onRequestClose={props.onClose}
             contentLabel="Create New Game"
         >
             <h3>Create New Game</h3>
@@ -104,8 +97,8 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({
                     onChange={(e) => setSelectedGameType(e.target.value)}
                 >
                     <option value="">Select a game type</option>
-                    {gameTypes &&
-                        gameTypes.map((gameType, index) => (
+                    {props.gameTypes &&
+                        props.gameTypes.map((gameType, index) => (
                             <option key={index} value={gameType.sportsName}>
                                 {gameType.sportsName}
                             </option>
@@ -119,28 +112,16 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({
                     value={selectedUsers.map((user) => user.userId)}
                     onChange={handleChange}
                 >
-                    {users &&
-                        users.map((user, index) => (
+                    {props.users &&
+                        props.users.map((user, index) => (
                             <option key={index} value={user.userId}>
                                 {user.userId} {user.name}
                             </option>
                         ))}
                 </select>
             </div>
-            <button className="btn btn-secondary"
-                onClick={() => {
-                    const newGame: Game = {
-                        location: location,
-                        gameDateTime: gameDateTime,
-                        gameType: selectedGameType,
-                        participants: selectedUsers,
-                    };
-                    console.log(newGame);
-                    saveGame(newGame);
-                }}
-            >
-                Create
-            </button>
+            <button className="btn btn-secondary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers })}>Create</button>
+            <button className="btn btn-secondary" onClick={props.onClose}>Cancel</button>
         </Modal>
     );
 };

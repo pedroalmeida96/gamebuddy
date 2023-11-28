@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
@@ -13,7 +13,6 @@ function GamesPage(_props: GamesPageProps) {
   const [games, setGames] = useState<Array<Game>>([]);
   const [gameTypes, setGameTypes] = useState<Array<GameType>>([]);
   const [users, setusers] = useState<Array<AppUser>>([]);
-  const [, setGameId] = useState<any>("");
   const [isCreatingNewGame, setIsCreatingNewGame] = useState<boolean>(false);
 
   useEffect(() => {
@@ -80,50 +79,6 @@ function GamesPage(_props: GamesPageProps) {
         console.log("Error:", e);
       });
   };
-
-  const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
-  };
-
-  const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setGameDateTime(e.target.value);
-  };
-
-
-  const saveGame = (game: Game) => {
-    axios
-      .post("http://localhost:8080/api/games/create", game, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
-        setGameId(response.data.gameId);
-        setLocation("");
-        setGameDateTime("");
-        setSelectedGameType("");
-        setSelectedUsers([]); // Reset selected users
-        console.log(response.data);
-        retrieveGames();
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
-
-
-  function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
-    const selectedIds = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    const selectedUserObjects = users.filter((user) => {
-      console.log(`user.userId: ${user.userId}, selectedIds: ${selectedIds}`);
-      return selectedIds.includes(user.userId.toString());
-    });
-    setSelectedUsers(selectedUserObjects);
-  }
 
   const closeModal = () => {
     setIsCreatingNewGame(false);
