@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import axios from "axios";
-import Modal from "react-modal";
+import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
@@ -61,67 +61,74 @@ function CreateGameModal(props: CreateGameModalProps) {
     }
 
     return (
-        <Modal
-            isOpen={props.isOpen}
-            onRequestClose={props.onClose}
-            contentLabel="Create New Game"
-        >
-            <h3>Create New Game</h3>
-            <div>
-                <label htmlFor="location">Location</label>
-                <input
-                    type="text"
-                    id="location"
-                    required
-                    value={location}
-                    onChange={onChangeLocation}
-                    name="location"
-                />
-            </div>
-            <div>
-                <label htmlFor="gameDateTime">Game DateTime</label>
-                <input
-                    type="datetime-local"
-                    id="gameDateTime"
-                    required
-                    value={gameDateTime}
-                    onChange={onChangeDate}
-                    name="gameDateTime"
-                />
-            </div>
-            <div>
-                <label htmlFor="gameType">Game Type</label>
-                <select
-                    id="gameType"
-                    value={selectedGameType}
-                    onChange={(e) => setSelectedGameType(e.target.value)}
-                >
-                    <option value="">Select a game type</option>
-                    {props.gameTypes &&
-                        props.gameTypes.map((gameType, index) => (
-                            <option key={index} value={gameType.sportsName}>
-                                {gameType.sportsName}
-                            </option>
-                        ))}
-                </select>
-            </div>
-            <div>
-                <select
-                    id="users"
-                    multiple
-                    value={selectedUsers.map((user) => user.userId)}
-                    onChange={handleChange}
-                >
-                    {props.users &&
-                        props.users.map((user, index) => (
-                            <option key={index} value={user.userId}>
-                                {user.userId} {user.name}
-                            </option>
-                        ))}
-                </select>
-            </div>
-            <button className="btn btn-secondary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers })}>Create</button>
-            <button className="btn btn-secondary" onClick={props.onClose}>Cancel</button>
+        <Modal show={props.isOpen} onHide={props.onClose} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Create New Game</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                    <label htmlFor="location">Location</label>
+                    <input
+                        type="text"
+                        id="location"
+                        required
+                        value={location}
+                        onChange={onChangeLocation}
+                        name="location"
+                        className="form-control"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="gameDateTime">Game DateTime</label>
+                    <input
+                        type="datetime-local"
+                        id="gameDateTime"
+                        required
+                        value={gameDateTime}
+                        onChange={onChangeDate}
+                        name="gameDateTime"
+                        className="form-control"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="gameType">Game Type</label>
+                    <select
+                        id="gameType"
+                        value={selectedGameType}
+                        onChange={(e) => setSelectedGameType(e.target.value)}
+                        className="form-control"
+                    >
+                        <option value="">Select a game type</option>
+                        {props.gameTypes &&
+                            props.gameTypes.map((gameType, index) => (
+                                <option key={index} value={gameType.sportsName}>
+                                    {gameType.sportsName}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="users">Participants</label>
+                    <select
+                        id="users"
+                        multiple
+                        value={selectedUsers.map((user) => user.userId)}
+                        onChange={handleChange}
+                        className="form-control"
+                    >
+                        {props.users &&
+                            props.users.map((user, index) => (
+                                <option key={index} value={user.userId}>
+                                    {user.userId} {user.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.onClose}>Cancel</Button>
+                <Button variant="primary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers })}>Create</Button>
+            </Modal.Footer>
         </Modal>
     );
 };
