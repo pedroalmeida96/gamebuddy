@@ -1,6 +1,6 @@
 import { useState } from "react";
-import GamesPage from "./GamesPage.tsx";
-import Login from "./Login.tsx"; // Create a Login component
+import GamesPage from "./gamepage.tsx";
+import Login from "./login.component.tsx"; // Create a Login component
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import GameDetails from "./gamedetails.component.tsx";
 
