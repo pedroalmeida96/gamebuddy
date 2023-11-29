@@ -62,18 +62,6 @@ function GameDetails() {
         setIsEditable(false);
     };
 
-    // const handleInputChange = (
-    //     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    // ) => {
-    //     if (editingGame) {
-    //         const { name, value } = event.target;
-    //         setEditingGame({
-    //             ...editingGame,
-    //             [name]: value,
-    //         });
-    //     }
-    // };
-
     const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGame((prevGame) => {
             if (prevGame) {

@@ -87,7 +87,7 @@ function GamesPage() {
       <h2>GAMES</h2>
       <button onClick={toggleCreateFields}>Create New Game</button>
       <CreateGameModal isOpen={isCreatingNewGame} onClose={closeModal} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
-      <GamesList gamesList={games} retrieveGames={retrieveGames} />
+      <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
       <GameTypes gameTypeList={gameTypes} />
     </div>
   );
