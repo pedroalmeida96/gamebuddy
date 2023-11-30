@@ -3,6 +3,7 @@ import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
+import { Link } from "react-router-dom";
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -96,7 +97,7 @@ function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProp
                     gamesList.map((game, index) => (
                         <li key={index}>
                             <span>
-                                {game.gameId}, {game.location}, {game.gameDateTime}, {game.gameType}, Participants:{" "}
+                                <Link to={`/games/${game.gameId}`}>{game.gameId}</Link>, {game.location}, {game.gameDateTime}, {game.gameType}, Participants:{" "}
                                 {game.participants.map((user, participantIndex) => (
                                     <span key={participantIndex}>
                                         {user.userId} - {user.name}

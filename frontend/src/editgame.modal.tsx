@@ -5,7 +5,7 @@ import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
 
-interface CreateGameModalProps {
+interface EditGameModalProps {
     isOpen: boolean;
     onClose: () => void;
     retrieveGames: () => void;
@@ -13,7 +13,7 @@ interface CreateGameModalProps {
     users: Array<AppUser>;
 }
 
-function CreateGameModal(props: CreateGameModalProps) {
+function EditGameModal(props: EditGameModalProps) {
     const [location, setLocation] = useState<string>("");
     const [gameDateTime, setGameDateTime] = useState<string>("");
     const [selectedGameType, setSelectedGameType] = useState<string>("");
@@ -133,4 +133,4 @@ function CreateGameModal(props: CreateGameModalProps) {
     );
 };
 
-export default CreateGameModal;
+export default EditGameModal;

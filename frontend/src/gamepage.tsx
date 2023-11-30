@@ -7,9 +7,7 @@ import GameTypes from "./gamestypelist.component";
 import AppUser from "./types/appuser";
 import CreateGameModal from "./creategame.modal";
 
-type GamesPageProps = {};
-
-function GamesPage(_props: GamesPageProps) {
+function GamesPage() {
   const [games, setGames] = useState<Array<Game>>([]);
   const [gameTypes, setGameTypes] = useState<Array<GameType>>([]);
   const [users, setusers] = useState<Array<AppUser>>([]);
