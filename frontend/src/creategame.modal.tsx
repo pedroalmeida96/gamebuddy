@@ -4,6 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
+import BaseService from "./service/base.service";
 
 interface CreateGameModalProps {
     isOpen: boolean;
@@ -28,13 +29,7 @@ function CreateGameModal(props: CreateGameModalProps) {
     };
 
     const saveGame = (game: Game) => {
-        axios
-            .post("http://localhost:8080/api/games/create", game, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                    "Content-type": "application/json",
-                },
-            })
+        BaseService.create<Game>("/games/create", game)
             .then((response: any) => {
                 setLocation("");
                 setGameDateTime("");
