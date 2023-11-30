@@ -1,5 +1,4 @@
 import { useState, ChangeEvent } from "react";
-import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";

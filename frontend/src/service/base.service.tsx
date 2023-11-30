@@ -68,7 +68,6 @@ export default class BaseService {
                 },
             })
             .then(response => {
-                console.log("test");
                 const result = response.data;
                 if (result && result.success) {
                     return new Response(true, result.data, "Success", "");
@@ -80,7 +79,6 @@ export default class BaseService {
             .catch(function (error) {
                 return new Response(false, null, "Error", error);
             });
-        console.log("cona");
         return res;
     }
     public static update<T>(url: string, param: any, obj: T): Promise<Response> {
