@@ -1,5 +1,4 @@
 import { useState, ChangeEvent } from "react";
-import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";
@@ -11,13 +10,14 @@ interface EditGameModalProps {
     retrieveGames: () => void;
     gameTypes: Array<GameType>;
     users: Array<AppUser>;
+    editingGame: Game;
 }
 
 function EditGameModal(props: EditGameModalProps) {
-    const [location, setLocation] = useState<string>("");
-    const [gameDateTime, setGameDateTime] = useState<string>("");
-    const [selectedGameType, setSelectedGameType] = useState<string>("");
-    const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
+    const [location, setLocation] = useState<string>(props.editingGame.location);
+    const [gameDateTime, setGameDateTime] = useState<string>(props.editingGame.gameDateTime);
+    const [selectedGameType, setSelectedGameType] = useState<string>(props.editingGame.gameType);
+    const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>(props.editingGame.participants);
 
     const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
         setLocation(e.target.value);
@@ -25,28 +25,6 @@ function EditGameModal(props: EditGameModalProps) {
 
     const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
         setGameDateTime(e.target.value);
-    };
-
-    const saveGame = (game: Game) => {
-        axios
-            .post("http://localhost:8080/api/games/create", game, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                    "Content-type": "application/json",
-                },
-            })
-            .then((response: any) => {
-                setLocation("");
-                setGameDateTime("");
-                setSelectedGameType("");
-                setSelectedUsers([]);
-                console.log(response.data);
-                props.retrieveGames();
-                props.onClose(); // Close the modal after creating the game
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
     };
 
     function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
@@ -127,7 +105,6 @@ function EditGameModal(props: EditGameModalProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onClose}>Cancel</Button>
-                <Button variant="primary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers })}>Create</Button>
             </Modal.Footer>
         </Modal>
     );

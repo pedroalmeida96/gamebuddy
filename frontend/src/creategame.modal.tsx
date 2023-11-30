@@ -29,12 +29,11 @@ function CreateGameModal(props: CreateGameModalProps) {
 
     const saveGame = (game: Game) => {
         BaseService.create<Game>("/games/create", game)
-            .then((response: any) => {
+            .then(() => {
                 setLocation("");
                 setGameDateTime("");
                 setSelectedGameType("");
                 setSelectedUsers([]);
-                console.log(response.data);
                 props.retrieveGames();
                 props.onClose(); // Close the modal after creating the game
             })

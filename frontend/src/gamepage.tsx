@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
@@ -26,6 +25,7 @@ function GamesPage() {
       const response = await BaseService.getAll<Game>("/games");
       if (response.status) {
         setGames(response.data);
+        console.log("games", response.data);
       } else {
         console.error(response.exception);
       }
@@ -35,41 +35,27 @@ function GamesPage() {
   };
 
 
-  const retrieveUsers = () => {
-    axios
-      .get("http://localhost:8080/api/users", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
-        setusers(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+  const retrieveUsers = async () => {
+    const response = await BaseService.getAll<AppUser>("/users");
+    if (response.status) {
+      setusers(response.data);
+      console.log("users", response.data);
+    } else {
+      console.error(response.exception);
+    }
   };
 
-  const retrieveGameTypes = () => {
-    axios
-      .get("http://localhost:8080/api/gameTypes", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
-        const gameTypes = response.data.map((sportsName: string) => ({
-          sportsName,
-        }));
-        setGameTypes(gameTypes);
-        console.log("gametype", gameTypes);
-      })
-      .catch((e: Error) => {
-        console.log("Error:", e);
-      });
+  const retrieveGameTypes = async () => {
+    const response = await BaseService.getAll<AppUser>("/gameTypes");
+    if (response.status) {
+      const gameTypes = response.data.map((sportsName: string) => ({
+        sportsName,
+      }));
+      setGameTypes(gameTypes);
+      console.log("gametype", gameTypes);
+    } else {
+      console.error(response.exception);
+    }
   };
 
   return (
