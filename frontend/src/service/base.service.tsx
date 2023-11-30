@@ -7,11 +7,16 @@ export default class BaseService {
 
 
     public static async getAll<T>(url: string): Promise<Response> {
-        let res = await axios.get<Array<T>>(this.baseURL + url)
+        let res = await axios.get<Array<T>>(this.baseURL + url, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+                "Content-type": "application/json",
+            },
+        })
             .then((response: any) => {
                 const result = response.data;
-                if (result && result.success) {
-                    return new Response(true, result.data as Array<T>, "Success", "");
+                if (result) {
+                    return new Response(true, response.data as Array<T>, "Success", "");
                 } else {
                     const msg = (result.messageList && result.messageList.length > 0) ? result.messageList[0].text : "Error";
                     return new Response(false, null, "Error", msg);
