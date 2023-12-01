@@ -15,37 +15,34 @@ interface EditGameModalProps {
 }
 
 function EditGameModal(props: EditGameModalProps) {
+    const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
     const [location, setLocation] = useState<string>(props.editingGame.location);
     const [gameDateTime, setGameDateTime] = useState<string>(props.editingGame.gameDateTime);
     const [selectedGameType, setSelectedGameType] = useState<string>(props.editingGame.gameType);
-    const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>(props.editingGame.participants);
-    const [, setEditGame] = useState<Game>();
-
-    const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
-        setLocation(e.target.value);
-    };
-
-    const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-        setGameDateTime(e.target.value);
-    };
 
     function handleChange(event: ChangeEvent<HTMLSelectElement>): void {
         const selectedIds = Array.from(
             event.target.selectedOptions,
             (option) => option.value
         );
-        const selectedUserObjects = selectedUsers.filter((user) => {
-            console.log(`user.userId: ${user.userId}, selectedIds: ${selectedIds}`);
-            return selectedIds.includes(user.userId.toString());
-        });
+        const selectedUserObjects = props.users.filter((user) => selectedIds.includes(user.userId.toString()));
         setSelectedUsers(selectedUserObjects);
     }
 
-    const handleEdit = async (updatedGame: Game) => {
+    const handleEdit = async () => {
+        const updatedGame: Game = {
+            ...props.editingGame,
+            location: location,
+            gameDateTime: gameDateTime,
+            gameType: selectedGameType,
+            participants: selectedUsers,
+        };
+
         try {
             const response = await BaseService.update<Game>("/games/update", updatedGame);
             if (response.status) {
-                setEditGame(response.data);
+                props.retrieveGames();
+                props.onClose();
             } else {
                 console.error(response.exception);
             }
@@ -53,7 +50,6 @@ function EditGameModal(props: EditGameModalProps) {
             console.error(error);
         }
     };
-
 
     return (
         <Modal show={props.isOpen} onHide={props.onClose} centered>
@@ -67,11 +63,11 @@ function EditGameModal(props: EditGameModalProps) {
                 </div>
                 <div>
                     <label htmlFor="location">Location</label>
-                    <input type="text" id="location" required value={location} onChange={onChangeLocation} name="location" className="form-control" />
+                    <input type="text" id="location" required value={location} onChange={(e) => setLocation(e.target.value)} name="location" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameDateTime">Game DateTime</label>
-                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={onChangeDate} name="gameDateTime" className="form-control" />
+                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={(e) => setGameDateTime(e.target.value)} name="gameDateTime" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameType">Game Type</label>
@@ -87,8 +83,8 @@ function EditGameModal(props: EditGameModalProps) {
                 </div>
                 <div>
                     <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange}>
-                        {selectedUsers &&
-                            selectedUsers.map((user, index) => (
+                        {props.users &&
+                            props.users.map((user, index) => (
                                 <option key={index} value={user.userId}>
                                     {user.userId} {user.name}
                                 </option>
@@ -98,10 +94,10 @@ function EditGameModal(props: EditGameModalProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onClose}>Cancel</Button>
-                <Button variant="primary" onClick={() => handleEdit(props.editingGame)}>Create</Button>
+                <Button variant="primary" onClick={handleEdit}>Update</Button>
             </Modal.Footer>
         </Modal>
     );
-};
+}
 
 export default EditGameModal;
