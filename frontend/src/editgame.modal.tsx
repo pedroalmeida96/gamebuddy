@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
+import BaseService from "./service/base.service";
 
 interface EditGameModalProps {
     isOpen: boolean;
@@ -18,6 +19,7 @@ function EditGameModal(props: EditGameModalProps) {
     const [gameDateTime, setGameDateTime] = useState<string>(props.editingGame.gameDateTime);
     const [selectedGameType, setSelectedGameType] = useState<string>(props.editingGame.gameType);
     const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>(props.editingGame.participants);
+    const [, setEditGame] = useState<Game>();
 
     const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
         setLocation(e.target.value);
@@ -38,6 +40,20 @@ function EditGameModal(props: EditGameModalProps) {
         setSelectedUsers(selectedUserObjects);
     }
 
+    const handleEdit = async (updatedGame: Game) => {
+        try {
+            const response = await BaseService.update<Game>("/games/update", updatedGame);
+            if (response.status) {
+                setEditGame(response.data);
+            } else {
+                console.error(response.exception);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
     return (
         <Modal show={props.isOpen} onHide={props.onClose} centered>
             <Modal.Header closeButton>
@@ -46,36 +62,15 @@ function EditGameModal(props: EditGameModalProps) {
             <Modal.Body>
                 <div>
                     <label htmlFor="location">Location</label>
-                    <input
-                        type="text"
-                        id="location"
-                        required
-                        value={location}
-                        onChange={onChangeLocation}
-                        name="location"
-                        className="form-control"
-                    />
+                    <input type="text" id="location" required value={location} onChange={onChangeLocation} name="location" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameDateTime">Game DateTime</label>
-                    <input
-                        type="datetime-local"
-                        id="gameDateTime"
-                        required
-                        value={gameDateTime}
-                        onChange={onChangeDate}
-                        name="gameDateTime"
-                        className="form-control"
-                    />
+                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={onChangeDate} name="gameDateTime" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameType">Game Type</label>
-                    <select
-                        id="gameType"
-                        value={selectedGameType}
-                        onChange={(e) => setSelectedGameType(e.target.value)}
-                        className="form-control"
-                    >
+                    <select id="gameType" value={selectedGameType} onChange={(e) => setSelectedGameType(e.target.value)} className="form-control">
                         <option value="">Select a game type</option>
                         {props.gameTypes &&
                             props.gameTypes.map((gameType, index) => (
@@ -86,16 +81,9 @@ function EditGameModal(props: EditGameModalProps) {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="users">Participants</label>
-                    <select
-                        id="users"
-                        multiple
-                        value={selectedUsers.map((user) => user.userId)}
-                        onChange={handleChange}
-                        className="form-control"
-                    >
-                        {props.users &&
-                            props.users.map((user, index) => (
+                    <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange}>
+                        {selectedUsers &&
+                            selectedUsers.map((user, index) => (
                                 <option key={index} value={user.userId}>
                                     {user.userId} {user.name}
                                 </option>
@@ -105,6 +93,7 @@ function EditGameModal(props: EditGameModalProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onClose}>Cancel</Button>
+                <Button variant="primary" onClick={() => handleEdit(props.editingGame)}>Create</Button>
             </Modal.Footer>
         </Modal>
     );

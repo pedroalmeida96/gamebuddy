@@ -5,7 +5,6 @@ import axios from "axios";
 export default class BaseService {
     private static baseURL: string = "http://localhost:8080/api";
 
-
     public static async getAll<T>(url: string): Promise<Response> {
         let res = await axios.get<Array<T>>(this.baseURL + url, {
             headers: {
@@ -45,6 +44,7 @@ export default class BaseService {
             });
         return res;
     }
+
     public static delete(url: string, param: any): Promise<Response> {
         console.log(param);
 
@@ -86,9 +86,14 @@ export default class BaseService {
             });
         return res;
     }
-    public static update<T>(url: string, param: any, obj: T): Promise<Response> {
 
-        let res = axios.post(this.baseURL + url + param, obj)
+    public static update<T>(url: string, obj: T): Promise<Response> {
+        let res = axios.put(this.baseURL + url, obj, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+                "Content-type": "application/json",
+            },
+        })
             .then(response => {
                 const result = response.data;
                 if (result && result.success) {
