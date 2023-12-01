@@ -19,14 +19,6 @@ function CreateGameModal(props: CreateGameModalProps) {
     const [selectedGameType, setSelectedGameType] = useState<string>("");
     const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
 
-    const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
-        setLocation(e.target.value);
-    };
-
-    const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-        setGameDateTime(e.target.value);
-    };
-
     const saveGame = (game: Game) => {
         BaseService.create<Game>("/games/create", game)
             .then(() => {
@@ -35,7 +27,7 @@ function CreateGameModal(props: CreateGameModalProps) {
                 setSelectedGameType("");
                 setSelectedUsers([]);
                 props.retrieveGames();
-                props.onClose(); // Close the modal after creating the game
+                props.onClose();
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -61,11 +53,11 @@ function CreateGameModal(props: CreateGameModalProps) {
             <Modal.Body>
                 <div>
                     <label htmlFor="location">Location</label>
-                    <input type="text" id="location" required value={location} onChange={onChangeLocation} name="location" className="form-control" />
+                    <input type="text" id="location" required value={location} onChange={(e) => setLocation(e.target.value)} name="location" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameDateTime">Game DateTime</label>
-                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={onChangeDate} name="gameDateTime" className="form-control" />
+                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={(e) => setGameDateTime(e.target.value)} name="gameDateTime" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameType">Game Type</label>

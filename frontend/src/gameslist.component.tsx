@@ -12,7 +12,7 @@ type GamesListProps = {
     retrieveGames: () => void;
 };
 
-function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProps) {
+function GamesList(props: GamesListProps) {
     const [editingGame, setEditingGame] = useState<Game | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -25,7 +25,7 @@ function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProp
         BaseService.delete("/games/delete/" + gameId)
             .then(() => {
                 console.log("Game deleted successfully");
-                retrieveGames();
+                props.retrieveGames();
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -36,8 +36,8 @@ function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProp
         <div>
             <h3>Games List</h3>
             <ul>
-                {gamesList &&
-                    gamesList.map((game, index) => (
+                {props.gamesList &&
+                    props.gamesList.map((game, index) => (
                         <li key={index}>
                             <span>
                                 {game.gameId}, {game.location}, {game.gameDateTime}, {game.gameType}, Participants:{" "}
@@ -54,7 +54,7 @@ function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProp
                     ))}
             </ul>
             {editingGame && (
-                <EditGameModal isOpen={isEditing} onClose={() => setIsEditing(false)} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} editingGame={editingGame} />
+                <EditGameModal isOpen={isEditing} onClose={() => setIsEditing(false)} retrieveGames={props.retrieveGames} gameTypes={props.gameTypes} users={props.users} editingGame={editingGame} />
             )}
         </div>
     );
