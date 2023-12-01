@@ -45,10 +45,13 @@ export default class BaseService {
         return res;
     }
 
-    public static delete(url: string, param: any): Promise<Response> {
-        console.log(param);
-
-        let res = axios.delete(this.baseURL + url, { data: param })
+    public static delete(url: string): Promise<Response> {
+        let res = axios.delete(this.baseURL + url, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+                "Content-type": "application/json",
+            },
+        })
             .then(response => {
                 const result = response.data;
                 if (result && result.success) {

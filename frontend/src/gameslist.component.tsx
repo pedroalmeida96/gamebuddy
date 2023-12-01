@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
 import EditGameModal from "./editgame.modal";
+import BaseService from "./service/base.service";
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -22,13 +22,7 @@ function GamesList({ gamesList, gameTypes, users, retrieveGames }: GamesListProp
     };
 
     const deleteGame = (gameId: any) => {
-        axios
-            .delete("http://localhost:8080/api/games/delete/" + gameId, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                    "Content-type": "application/json",
-                },
-            })
+        BaseService.delete("/games/delete/" + gameId)
             .then(() => {
                 console.log("Game deleted successfully");
                 retrieveGames();
