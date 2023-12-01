@@ -34,9 +34,10 @@ function EditGameModal(props: EditGameModalProps) {
             event.target.selectedOptions,
             (option) => option.value
         );
-        const selectedUserObjects = props.users.filter((user) =>
-            selectedIds.includes(user.userId.toString())
-        );
+        const selectedUserObjects = selectedUsers.filter((user) => {
+            console.log(`user.userId: ${user.userId}, selectedIds: ${selectedIds}`);
+            return selectedIds.includes(user.userId.toString());
+        });
         setSelectedUsers(selectedUserObjects);
     }
 
@@ -57,9 +58,13 @@ function EditGameModal(props: EditGameModalProps) {
     return (
         <Modal show={props.isOpen} onHide={props.onClose} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Create New Game</Modal.Title>
+                <Modal.Title>Edit Game</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <div>
+                    <label htmlFor="gameId">Game ID</label>
+                    <div id="gameId">{props.editingGame.gameId}</div>
+                </div>
                 <div>
                     <label htmlFor="location">Location</label>
                     <input type="text" id="location" required value={location} onChange={onChangeLocation} name="location" className="form-control" />
