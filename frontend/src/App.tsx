@@ -2,7 +2,6 @@ import { useState } from "react";
 import GamesPage from "./gamepage.tsx";
 import Login from "./login.component.tsx"; // Create a Login component
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import GameDetails from "./gamedetails.component.tsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,9 +32,7 @@ function App() {
           </nav>
           <Routes>
             {isLoggedIn && (
-              <><Route path="/games" element={<GamesPage />} />
-                <Route path="/games/:gameId" element={<GameDetails />} />
-              </>
+              <Route path="/games" element={<GamesPage />} />
             )}
             {!isLoggedIn && (
               <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />

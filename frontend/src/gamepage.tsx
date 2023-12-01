@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
 import GameTypes from "./gamestypelist.component";
 import AppUser from "./types/appuser";
 import CreateGameModal from "./creategame.modal";
+import BaseService from "./service/base.service";
+import { Button, Container } from "react-bootstrap";
 
 function GamesPage() {
   const [games, setGames] = useState<Array<Game>>([]);
@@ -19,74 +20,51 @@ function GamesPage() {
     retrieveUsers();
   }, []);
 
-  const toggleCreateFields = () => {
-    setIsCreatingNewGame(!isCreatingNewGame);
-  };
 
-
-  const retrieveGames = () => {
-    axios
-      .get("http://localhost:8080/api/games", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
+  const retrieveGames = async () => {
+    try {
+      const response = await BaseService.getAll<Game>("/games");
+      if (response.status) {
         setGames(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+        console.log("games", response.data);
+      } else {
+        console.error(response.exception);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const retrieveUsers = () => {
-    axios
-      .get("http://localhost:8080/api/users", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
-        setusers(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+  const retrieveUsers = async () => {
+    const response = await BaseService.getAll<AppUser>("/users");
+    if (response.status) {
+      setusers(response.data);
+      console.log("users", response.data);
+    } else {
+      console.error(response.exception);
+    }
   };
 
-  const retrieveGameTypes = () => {
-    axios
-      .get("http://localhost:8080/api/gameTypes", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-type": "application/json",
-        },
-      })
-      .then((response: any) => {
-        const gameTypes = response.data.map((sportsName: string) => ({
-          sportsName,
-        }));
-        setGameTypes(gameTypes);
-        console.log("gametype", gameTypes);
-      })
-      .catch((e: Error) => {
-        console.log("Error:", e);
-      });
-  };
-
-  const closeModal = () => {
-    setIsCreatingNewGame(false);
+  const retrieveGameTypes = async () => {
+    const response = await BaseService.getAll<AppUser>("/gameTypes");
+    if (response.status) {
+      const gameTypes = response.data.map((sportsName: string) => ({
+        sportsName,
+      }));
+      setGameTypes(gameTypes);
+      console.log("gametype", gameTypes);
+    } else {
+      console.error(response.exception);
+    }
   };
 
   return (
     <div>
-      <h2>GAMES</h2>
-      <button onClick={toggleCreateFields}>Create New Game</button>
-      <CreateGameModal isOpen={isCreatingNewGame} onClose={closeModal} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
+      <Container>
+        <h2 className="text-center text-primary">GAMES</h2>
+      </Container>
+      <Button onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
+      <CreateGameModal isOpen={isCreatingNewGame} onClose={() => setIsCreatingNewGame(false)} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
       <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
       <GameTypes gameTypeList={gameTypes} />
     </div>

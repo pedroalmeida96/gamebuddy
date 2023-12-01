@@ -1,9 +1,9 @@
 import { useState, ChangeEvent } from "react";
-import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import AppUser from "./types/appuser";
+import BaseService from "./service/base.service";
 
 interface CreateGameModalProps {
     isOpen: boolean;
@@ -19,30 +19,15 @@ function CreateGameModal(props: CreateGameModalProps) {
     const [selectedGameType, setSelectedGameType] = useState<string>("");
     const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
 
-    const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
-        setLocation(e.target.value);
-    };
-
-    const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-        setGameDateTime(e.target.value);
-    };
-
     const saveGame = (game: Game) => {
-        axios
-            .post("http://localhost:8080/api/games/create", game, {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                    "Content-type": "application/json",
-                },
-            })
-            .then((response: any) => {
+        BaseService.create<Game>("/games/create", game)
+            .then(() => {
                 setLocation("");
                 setGameDateTime("");
                 setSelectedGameType("");
                 setSelectedUsers([]);
-                console.log(response.data);
                 props.retrieveGames();
-                props.onClose(); // Close the modal after creating the game
+                props.onClose();
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -68,36 +53,15 @@ function CreateGameModal(props: CreateGameModalProps) {
             <Modal.Body>
                 <div>
                     <label htmlFor="location">Location</label>
-                    <input
-                        type="text"
-                        id="location"
-                        required
-                        value={location}
-                        onChange={onChangeLocation}
-                        name="location"
-                        className="form-control"
-                    />
+                    <input type="text" id="location" required value={location} onChange={(e) => setLocation(e.target.value)} name="location" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameDateTime">Game DateTime</label>
-                    <input
-                        type="datetime-local"
-                        id="gameDateTime"
-                        required
-                        value={gameDateTime}
-                        onChange={onChangeDate}
-                        name="gameDateTime"
-                        className="form-control"
-                    />
+                    <input type="datetime-local" id="gameDateTime" required value={gameDateTime} onChange={(e) => setGameDateTime(e.target.value)} name="gameDateTime" className="form-control" />
                 </div>
                 <div>
                     <label htmlFor="gameType">Game Type</label>
-                    <select
-                        id="gameType"
-                        value={selectedGameType}
-                        onChange={(e) => setSelectedGameType(e.target.value)}
-                        className="form-control"
-                    >
+                    <select id="gameType" value={selectedGameType} onChange={(e) => setSelectedGameType(e.target.value)} className="form-control" >
                         <option value="">Select a game type</option>
                         {props.gameTypes &&
                             props.gameTypes.map((gameType, index) => (
@@ -109,13 +73,7 @@ function CreateGameModal(props: CreateGameModalProps) {
                 </div>
                 <div>
                     <label htmlFor="users">Participants</label>
-                    <select
-                        id="users"
-                        multiple
-                        value={selectedUsers.map((user) => user.userId)}
-                        onChange={handleChange}
-                        className="form-control"
-                    >
+                    <select id="users" multiple value={selectedUsers.map((user) => user.userId)} onChange={handleChange} className="form-control">
                         {props.users &&
                             props.users.map((user, index) => (
                                 <option key={index} value={user.userId}>
