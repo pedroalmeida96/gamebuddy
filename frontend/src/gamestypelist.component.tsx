@@ -1,3 +1,4 @@
+import { Container } from "react-bootstrap";
 import GameType from "./types/gameType";
 
 type GameTypeListProps = {
@@ -7,7 +8,9 @@ type GameTypeListProps = {
 function GameTypeList({ gameTypeList }: GameTypeListProps) {
     return (
         <div>
-            <h2>GAMETYPES</h2>
+            <Container>
+                <h2 className="text-center text-primary">GAMETYPES</h2>
+            </Container>
             <div>
                 <h3>Game Types List</h3>
                 <ul>
