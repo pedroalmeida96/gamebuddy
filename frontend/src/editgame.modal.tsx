@@ -40,11 +40,9 @@ function EditGameModal(props: EditGameModalProps) {
 
         try {
             const response = await BaseService.update<Game>("/games/update", updatedGame);
-            if (response.status) {
+            if (response) {
                 props.retrieveGames();
                 props.onClose();
-            } else {
-                console.error(response.exception);
             }
         } catch (error) {
             console.error(error);
