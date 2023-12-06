@@ -63,10 +63,9 @@ function GamesPage() {
       <Container>
         <h2 className="text-center text-primary">GAMES</h2>
       </Container>
-      <Button onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
       <CreateGameModal isOpen={isCreatingNewGame} onClose={() => setIsCreatingNewGame(false)} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
       <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
-      <GameTypes gameTypeList={gameTypes} />
+      <Button onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
     </div>
   );
 }
