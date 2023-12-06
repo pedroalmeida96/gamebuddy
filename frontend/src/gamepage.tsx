@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
-import GameTypes from "./gamestypelist.component";
 import AppUser from "./types/appuser";
 import CreateGameModal from "./creategame.modal";
 import BaseService from "./service/base.service";
