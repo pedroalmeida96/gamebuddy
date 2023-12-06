@@ -12,7 +12,6 @@ function GameTypeList({ gameTypeList }: GameTypeListProps) {
                 <h2 className="text-center text-primary">GAMETYPES</h2>
             </Container>
             <div>
-                <h3>Game Types List</h3>
                 <ul>
                     {gameTypeList.map((gameType, index) => (
                         <li key={index}>
