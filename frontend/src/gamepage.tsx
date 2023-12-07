@@ -64,7 +64,7 @@ function GamesPage() {
       </Container>
       <CreateGameModal isOpen={isCreatingNewGame} onClose={() => setIsCreatingNewGame(false)} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
       <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
-      <Button onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
+      <Button className="create-new-game" onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
     </div>
   );
 }

@@ -5,6 +5,9 @@ import AppUser from "./types/appuser";
 import EditGameModal from "./editgame.modal";
 import BaseService from "./service/base.service";
 import { Button, Table } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import './gameslist.component.css';
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -16,6 +19,7 @@ type GamesListProps = {
 function GamesList(props: GamesListProps) {
     const [editingGame, setEditingGame] = useState<Game | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [favoriteGames, setFavoriteGames] = useState<Array<Game>>([]);
 
     const editGame = (game: Game) => {
         setEditingGame(game);
@@ -31,6 +35,16 @@ function GamesList(props: GamesListProps) {
             .catch((e: Error) => {
                 console.log(e);
             });
+    };
+
+    const toggleFavorite = (game: Game) => {
+        if (favoriteGames.some((favGame) => favGame.gameId === game.gameId)) {
+            setFavoriteGames((prevFavoriteGames) =>
+                prevFavoriteGames.filter((favGame) => favGame.gameId !== game.gameId)
+            );
+        } else {
+            setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
+        }
     };
 
     return (
@@ -62,7 +76,8 @@ function GamesList(props: GamesListProps) {
                                         </span>
                                     ))}
                                 </td>
-                                <td>
+                                <td className="games-list-actions">
+                                    <FontAwesomeIcon icon={faStar} className="star-icon" style={{ color: favoriteGames.some((favGame) => favGame.gameId === game.gameId) ? 'gold' : 'gray' }} onClick={() => toggleFavorite(game)} />
                                     <Button variant="danger" onClick={() => deleteGame(game.gameId)}>Delete</Button>
                                     <Button variant="primary" onClick={() => editGame(game)}>Edit</Button>
                                 </td>
