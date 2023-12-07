@@ -8,6 +8,7 @@ import { Button, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import './gameslist.component.css';
+import PopupAlert from "./popupalert.component";
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -20,6 +21,7 @@ function GamesList(props: GamesListProps) {
     const [editingGame, setEditingGame] = useState<Game | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [favoriteGames, setFavoriteGames] = useState<Array<Game>>([]);
+    const [infoMessage, setInfoMessage] = useState<string | null>(null);
 
     const editGame = (game: Game) => {
         setEditingGame(game);
@@ -45,6 +47,7 @@ function GamesList(props: GamesListProps) {
         } else {
             setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
         }
+        setInfoMessage('Favorite status updated');
     };
 
     return (
@@ -89,8 +92,10 @@ function GamesList(props: GamesListProps) {
             {editingGame && (
                 <EditGameModal isOpen={isEditing} onClose={() => setIsEditing(false)} retrieveGames={props.retrieveGames} gameTypes={props.gameTypes} users={props.users} editingGame={editingGame} />
             )}
+            {infoMessage && <PopupAlert message={infoMessage} />}
         </>
     );
 }
 
 export default GamesList;
+
