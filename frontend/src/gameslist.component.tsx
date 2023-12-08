@@ -92,7 +92,8 @@ function GamesList(props: GamesListProps) {
             {editingGame && (
                 <EditGameModal isOpen={isEditing} onClose={() => setIsEditing(false)} retrieveGames={props.retrieveGames} gameTypes={props.gameTypes} users={props.users} editingGame={editingGame} />
             )}
-            {infoMessage && <PopupAlert message={infoMessage} />}
+            {infoMessage && <PopupAlert message={infoMessage} onClose={() => setInfoMessage(null)} />}
+
         </>
     );
 }
