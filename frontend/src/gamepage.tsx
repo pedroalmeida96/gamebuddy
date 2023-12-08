@@ -6,7 +6,7 @@ import AppUser from "./types/appuser";
 import CreateGameModal from "./creategame.modal";
 import BaseService from "./service/base.service";
 import { Button, Container } from "react-bootstrap";
-import "./gamepage.css";
+import "./styles.css";
 
 function GamesPage() {
   const [games, setGames] = useState<Array<Game>>([]);

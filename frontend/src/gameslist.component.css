@@ -1,9 +1,0 @@
-.games-list-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.games-list-actions .star-icon {
-  font-size: 24px; /* Adjust the font size as needed */
-}

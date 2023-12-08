@@ -1,0 +1,35 @@
+/* gameslist.component */
+.games-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.games-list-actions .star-icon {
+  font-size: 24px;
+}
+
+/* popupalert.component */
+.popup-alert {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.popup-alert-content {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+/* gamepage */
+.parent-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.create-new-game {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}

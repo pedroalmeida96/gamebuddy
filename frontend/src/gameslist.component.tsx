@@ -7,8 +7,8 @@ import BaseService from "./service/base.service";
 import { Button, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import './gameslist.component.css';
 import PopupAlert from "./popupalert.component";
+import './styles.css';
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -44,10 +44,12 @@ function GamesList(props: GamesListProps) {
             setFavoriteGames((prevFavoriteGames) =>
                 prevFavoriteGames.filter((favGame) => favGame.gameId !== game.gameId)
             );
+            setInfoMessage('Added to favorites');
+
         } else {
             setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
+            setInfoMessage('Removed from favorites');
         }
-        setInfoMessage('Favorite status updated');
     };
 
     return (

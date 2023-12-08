@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
+import "./styles.css";
 
 type PopupAlertProps = {
   message: string;
@@ -10,7 +11,7 @@ function PopupAlert(props: PopupAlertProps) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    setShow(true); // Reset show state when message prop changes
+    setShow(true);
   }, [props.message]);
 
   const handleClose = () => {
@@ -20,8 +21,8 @@ function PopupAlert(props: PopupAlertProps) {
 
   if (show) {
     return (
-      <Alert variant="success" onClose={handleClose} dismissible>
-        <p>{props.message}</p>
+      <Alert variant="success" onClose={handleClose} dismissible className="popup-alert">
+        <p className="popup-alert-content">{props.message}</p>
       </Alert>
     );
   } else {
