@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import Game from "./types/game";
 import GameType from "./types/gameType";
 import GamesList from "./gameslist.component";
-import GameTypes from "./gamestypelist.component";
 import AppUser from "./types/appuser";
 import CreateGameModal from "./creategame.modal";
 import BaseService from "./service/base.service";
 import { Button, Container } from "react-bootstrap";
+import "./styles.css";
 
 function GamesPage() {
   const [games, setGames] = useState<Array<Game>>([]);
@@ -65,7 +65,10 @@ function GamesPage() {
       </Container>
       <CreateGameModal isOpen={isCreatingNewGame} onClose={() => setIsCreatingNewGame(false)} retrieveGames={retrieveGames} gameTypes={gameTypes} users={users} />
       <GamesList gamesList={games} retrieveGames={retrieveGames} users={users} gameTypes={gameTypes} />
-      <Button onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
+      <div className="parent-container">
+        <Button className="create-new-game" onClick={() => { setIsCreatingNewGame(!isCreatingNewGame) }}>Create New Game</Button>
+      </div>
+
     </div>
   );
 }

@@ -15,6 +15,7 @@ interface CreateGameModalProps {
 
 function CreateGameModal(props: CreateGameModalProps) {
     const [location, setLocation] = useState<string>("");
+    const [favorite] = useState<boolean>(false);
     const [gameDateTime, setGameDateTime] = useState<string>("");
     const [selectedGameType, setSelectedGameType] = useState<string>("");
     const [selectedUsers, setSelectedUsers] = useState<Array<AppUser>>([]);
@@ -85,7 +86,7 @@ function CreateGameModal(props: CreateGameModalProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onClose}>Cancel</Button>
-                <Button variant="primary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers })}>Create</Button>
+                <Button variant="primary" onClick={() => saveGame({ location, gameDateTime, gameType: selectedGameType, participants: selectedUsers, favorite })}>Create</Button>
             </Modal.Footer>
         </Modal>
     );
