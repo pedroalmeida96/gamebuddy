@@ -2,6 +2,7 @@ import { useState } from "react";
 import GamesPage from "./gamepage.tsx";
 import Login from "./login.component.tsx"; // Create a Login component
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Header from "./header.component.tsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,7 +11,7 @@ function App() {
     <Router>
       <div className="App">
         <header>
-          <h1>Welcome to GameBuddy</h1>
+          <Header />
           <nav>
             <ul>
               {isLoggedIn && (
