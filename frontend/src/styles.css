@@ -21,9 +21,8 @@
 
 /* header.component */
 .header-container {
-  background-color: #343a40;
   padding: 20px;
-  color: #ffffff;
+  color: #343a40;
   text-align: center;
 }
 
@@ -66,4 +65,28 @@
   justify-content: flex-end;
   align-items: center;
   margin-right: 20px;
+}
+
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+/* navbar */
+.navbar-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* navlink */
+.nav-link {
+  color: #fff; /* Set text color to white */
+  text-decoration: none; /* Remove underline from the link */
+  padding: 10px 15px; /* Add padding for a more clickable area */
+  border-radius: 5px; /* Add rounded corners for a button-like appearance */
+  background-color: #007bff; /* Set a background color, adjust as needed */
+}
+
+.nav-link:hover {
+  background-color: #0056b3; /* Change background color on hover */
 }
