@@ -47,16 +47,14 @@ function GamesList(props: GamesListProps) {
                 "Content-type": "application/json",
             },
         }).then(response => {
-            console.log(response + "CONA E BINHO");
             if (favoriteGames.some((favGame) => favGame.gameId === game.gameId)) {
                 setFavoriteGames((prevFavoriteGames) =>
                     prevFavoriteGames.filter((favGame) => favGame.gameId !== game.gameId)
                 );
-                setInfoMessage('Removed from favorites');
-
+                setInfoMessage('Added to favorites');
             } else {
                 setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
-                setInfoMessage('Added to favorites');
+                setInfoMessage('Removed from favorites');
             }
         })
             .catch(function (error) {
@@ -96,9 +94,9 @@ function GamesList(props: GamesListProps) {
                                 </td>
                                 <td className="games-list-actions">
                                     <FontAwesomeIcon icon={faStar} className="star-icon" style={{
-                                        color: favoriteGames.some((favGame) => favGame.gameId === game.gameId) && game.favorites.includes(localStorage.getItem("username") || "ass")
-                                            ? 'gold'
-                                            : 'gray',
+                                        color: (favoriteGames.some((favGame) => favGame.gameId === game.gameId) && (game.favorites && game.favorites.includes(localStorage.getItem("username") || "ass")))
+                                            ? 'gray'
+                                            : 'gold',
                                     }} onClick={() => toggleFavorite(game)} />
                                     <Button variant="danger" onClick={() => deleteGame(game.gameId)}>Delete</Button>
                                     <Button variant="primary" onClick={() => editGame(game)}>Edit</Button>
