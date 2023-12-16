@@ -33,9 +33,12 @@ public class FavoritesService {
         if (Objects.isNull(game.getFavorites())) {
             game.setFavorites(new HashSet<>());
         }
-        game.getFavorites().add(appUser.getUsername());
+        if (game.getFavorites().contains(appUser.getUsername())) {
+            game.getFavorites().remove(appUser.getUsername());
+        } else {
+            game.getFavorites().add(appUser.getUsername());
+        }
         gameService.updateGame(game);
-
         return ResponseEntity.ok("Success");
     }
 }
