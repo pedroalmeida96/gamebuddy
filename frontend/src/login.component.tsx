@@ -24,6 +24,7 @@ function Login({ setIsLoggedIn }: LoginProps) {
       .post("http://localhost:8080/login", requestData)
       .then((response) => {
         if (response.status === 200) {
+          localStorage.setItem("username", requestData.username);
           localStorage.setItem("token", response.data);
           setIsLoggedIn(true);
         } else {

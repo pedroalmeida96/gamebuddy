@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -33,11 +30,14 @@ public class FavoritesService {
         if (Objects.isNull(game.getFavorites())) {
             game.setFavorites(new HashSet<>());
         }
-        if (game.getFavorites().contains(appUser.getUsername())) {
-            game.getFavorites().remove(appUser.getUsername());
+
+        Set<String> favorites = game.getFavorites();
+        if (favorites.contains(appUser.getUsername())) {
+            favorites.remove(appUser.getUsername());
         } else {
-            game.getFavorites().add(appUser.getUsername());
+            favorites.add(appUser.getUsername());
         }
+
         gameService.updateGame(game);
         return ResponseEntity.ok("Success");
     }

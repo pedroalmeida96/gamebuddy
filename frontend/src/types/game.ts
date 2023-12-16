@@ -7,4 +7,5 @@ export default interface Game {
   participants: Array<AppUser>;
   gameDateTime: string;
   favorite: boolean;
+  favorites: Array<string>;
 }
