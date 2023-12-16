@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,9 @@ public class Game {
     @ManyToMany
     @JoinColumn(name = "user_id")
     private List<AppUser> participants;
+
+    @Column
+    private HashSet<String> favorites;
 
     @Column
     private String author;

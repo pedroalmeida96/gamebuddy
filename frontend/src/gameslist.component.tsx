@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import PopupAlert from "./popupalert.component";
 import './styles.css';
+import axios from "axios";
 
 type GamesListProps = {
     gamesList: Array<Game>;
@@ -40,17 +41,29 @@ function GamesList(props: GamesListProps) {
     };
 
     const toggleFavorite = (game: Game) => {
+        axios.post("http://localhost:8080/api/favorites/add?gameId=" + game.gameId, null, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+                "Content-type": "application/json",
+            },
+        }).then(response => {
+            console.log(response + "CONA E BINHO");
+        })
+            .catch(function (error) {
+                // Handle error
+            });
+
         if (favoriteGames.some((favGame) => favGame.gameId === game.gameId)) {
             setFavoriteGames((prevFavoriteGames) =>
                 prevFavoriteGames.filter((favGame) => favGame.gameId !== game.gameId)
             );
             setInfoMessage('Added to favorites');
-
         } else {
             setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
             setInfoMessage('Removed from favorites');
         }
     };
+
 
     return (
         <>

@@ -45,6 +45,7 @@ public class GameService {
         existingGame.setLocation(updatedGame.getLocation());
         existingGame.setGameDateTime(updatedGame.getGameDateTime());
         existingGame.setParticipants(updatedGame.getParticipants());
+        existingGame.setFavorites(updatedGame.getFavorites());
         return gameRepository.save(existingGame);
     }
 
