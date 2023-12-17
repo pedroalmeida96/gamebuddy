@@ -21,7 +21,6 @@ type GamesListProps = {
 function GamesList(props: GamesListProps) {
     const [editingGame, setEditingGame] = useState<Game | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [favoriteGames, setFavoriteGames] = useState<Array<Game>>([]);
     const [infoMessage, setInfoMessage] = useState<string | null>(null);
 
     const editGame = (game: Game) => {
@@ -46,18 +45,10 @@ function GamesList(props: GamesListProps) {
                 Authorization: localStorage.getItem("token"),
                 "Content-type": "application/json",
             },
-        }).then(response => {
-            if (favoriteGames.some((favGame) => favGame.gameId === game.gameId)) {
-                setFavoriteGames((prevFavoriteGames) =>
-                    prevFavoriteGames.filter((favGame) => favGame.gameId !== game.gameId)
-                );
-                setInfoMessage('Added to favorites');
-            } else {
-                setFavoriteGames((prevFavoriteGames) => [...prevFavoriteGames, game]);
-                setInfoMessage('Removed from favorites');
-            }
+        }).then(() => {
+            props.retrieveGames();
         })
-            .catch(function (error) {
+            .catch(function () {
                 // Handle error
             });
     };
@@ -93,11 +84,7 @@ function GamesList(props: GamesListProps) {
                                     ))}
                                 </td>
                                 <td className="games-list-actions">
-                                    <FontAwesomeIcon icon={faStar} className="star-icon" style={{
-                                        color: (favoriteGames.some((favGame) => favGame.gameId === game.gameId) && (game.favorites && game.favorites.includes(localStorage.getItem("username") || "ass")))
-                                            ? 'gray'
-                                            : 'gold',
-                                    }} onClick={() => toggleFavorite(game)} />
+                                    <FontAwesomeIcon icon={faStar} className="star-icon" style={{ color: game.favorites && game.favorites.includes(localStorage.getItem("username") || "ass") ? 'gray' : 'gold', }} onClick={() => toggleFavorite(game)} />
                                     <Button variant="danger" onClick={() => deleteGame(game.gameId)}>Delete</Button>
                                     <Button variant="primary" onClick={() => editGame(game)}>Edit</Button>
                                 </td>
