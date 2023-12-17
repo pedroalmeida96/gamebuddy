@@ -2,6 +2,7 @@ package com.pedroalmeida.gamebuddy.game;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -16,7 +17,8 @@ public class GameService {
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        Sort sortByGameId = Sort.by(Sort.Direction.ASC, "gameId");
+        return gameRepository.findAll(sortByGameId);
     }
 
     public List<Game> getAllGamesByAuthor(String author) {
@@ -45,6 +47,7 @@ public class GameService {
         existingGame.setLocation(updatedGame.getLocation());
         existingGame.setGameDateTime(updatedGame.getGameDateTime());
         existingGame.setParticipants(updatedGame.getParticipants());
+        existingGame.setFavorites(updatedGame.getFavorites());
         return gameRepository.save(existingGame);
     }
 
