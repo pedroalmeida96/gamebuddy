@@ -5,6 +5,7 @@ import Login from '../login.component';
 import { useState } from 'react';
 import "../styles.css";
 import NavLink from './navlink.component';
+import Registration from '../registration.component';
 
 function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,7 +30,10 @@ function Navbar() {
                     <Route path="/games" element={<GamesPage />} />
                 )}
                 {!isLoggedIn && (
-                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+                    <>
+                        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+                        <Route path="/registration" element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
+                    </>
                 )}
             </Routes>
         </Container>
