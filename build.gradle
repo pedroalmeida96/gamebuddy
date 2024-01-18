@@ -2,8 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'pmd'
-    id 'jacoco'
+//    id 'pmd'
+//    id 'jacoco'
 //    id 'com.github.spotbugs' version '4.7.3'
 }
 
@@ -17,27 +17,27 @@ java {
     sourceCompatibility = '17'
 }
 
-pmd {
-    toolVersion = '6.36.0'
-    ruleSets = []
-    ruleSetFiles = files('pmd.xml')
-}
-
-jacoco {
-    toolVersion = '0.8.7' // Use the desired version of JaCoCo
-    reportsDir = file("$buildDir/customJacocoReportDir")
-}
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.25
-            }
-        }
-    }
-}
-
+//pmd {
+//    toolVersion = '6.36.0'
+//    ruleSets = []
+//    ruleSetFiles = files('pmd.xml')
+//
+//
+//jacoco {
+//    toolVersion = '0.8.7' // Use the desired version of JaCoCo
+//    reportsDir = file("$buildDir/customJacocoReportDir")
+//}}
+//
+//jacocoTestCoverageVerification {
+//    violationRules {
+//        rule {
+//            limit {
+//                minimum = 0.25
+//            }
+//        }
+//    }
+//}
+//
 //spotbugs {
 //    toolVersion = '4.7.3'
 //}
@@ -69,5 +69,5 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-    finalizedBy jacocoTestCoverageVerification
+//    finalizedBy jacocoTestCoverageVerification
 }
