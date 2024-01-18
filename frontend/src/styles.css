@@ -1,0 +1,92 @@
+/* login */
+.login-container {
+  margin-top: 50px;
+}
+
+.login-form {
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* header.component */
+.header-container {
+  padding: 20px;
+  color: #343a40;
+  text-align: center;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* gameslist.component */
+.games-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.games-list-actions .star-icon {
+  font-size: 24px;
+}
+
+/* popupalert.component */
+.popup-alert {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.popup-alert-content {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+/* gamepage */
+.parent-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.create-new-game {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+/* navbar */
+.navbar-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* navlink */
+.nav-link {
+  color: #fff; /* Set text color to white */
+  text-decoration: none; /* Remove underline from the link */
+  padding: 10px 15px; /* Add padding for a more clickable area */
+  border-radius: 5px; /* Add rounded corners for a button-like appearance */
+  background-color: #007bff; /* Set a background color, adjust as needed */
+}
+
+.nav-link:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}

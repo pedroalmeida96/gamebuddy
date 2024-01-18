@@ -2,7 +2,9 @@ package com.pedroalmeida.gamebuddy.game;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +17,8 @@ public class GameService {
     private final GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        Sort sortByGameId = Sort.by(Sort.Direction.ASC, "gameId");
+        return gameRepository.findAll(sortByGameId);
     }
 
     public List<Game> getAllGamesByAuthor(String author) {
@@ -27,13 +30,14 @@ public class GameService {
     }
 
     public Game createGame(Game game) {
-        if (game.getParticipants().isEmpty()) {
+        game.setNumPlayers(game.getParticipants().size());
+        game.setFull(game.getNumPlayers() == game.getGameType().getMaxPlayers());
+        if (CollectionUtils.isEmpty(game.getParticipants())) {
             throw new IllegalArgumentException("No participants");
         }
-        if (game.getGameDateTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("The game date time must be in the future.");
+        if (game.getGameDateTime() == null || game.getGameDateTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Invalid game time date.");
         }
-        game.setNumPlayers(game.getParticipants().size());
         return gameRepository.save(game);
     }
 
@@ -43,6 +47,7 @@ public class GameService {
         existingGame.setLocation(updatedGame.getLocation());
         existingGame.setGameDateTime(updatedGame.getGameDateTime());
         existingGame.setParticipants(updatedGame.getParticipants());
+        existingGame.setFavorites(updatedGame.getFavorites());
         return gameRepository.save(existingGame);
     }
 

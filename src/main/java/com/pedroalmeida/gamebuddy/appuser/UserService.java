@@ -21,8 +21,15 @@ public class UserService {
     public AppUserDTO getAppUser(Integer id) {
         return userRepository.findById(id)
                 .map(appUserDTOMapper)
-                .orElseThrow(() -> new ResourceNotFoundException(
+                .orElseThrow(() -> new AppUserNotFound(
                         "AppUser with id [%s] not found".formatted(id)
+                ));
+    }
+
+    public AppUser getAppUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppUserNotFound(
+                        "AppUser with username [%s] not found".formatted(username)
                 ));
     }
 

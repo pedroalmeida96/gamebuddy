@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,15 +33,17 @@ public class GameServiceTest {
     @Test
     public void testGetAllGames() {
         // Arrange
+        Sort sortByGameId = Sort.by(Sort.Direction.ASC, "gameId");
+
         List<Game> games = new ArrayList<>();
-        when(gameRepository.findAll()).thenReturn(games);
+        when(gameRepository.findAll(sortByGameId)).thenReturn(games);
 
         // Act
         List<Game> result = gameService.getAllGames();
 
         // Assert
         assertEquals(games, result);
-        verify(gameRepository, times(1)).findAll();
+        verify(gameRepository, times(1)).findAll(sortByGameId);
     }
 
     @Test
@@ -62,7 +65,7 @@ public class GameServiceTest {
     public void testCreateGame() {
         // Arrange
         Game game = new Game();
-
+        game.setGameType(GameType.FOOTBALL);
         // Add the AppUser object to the ArrayList
         game.setParticipants(List.of(AppUser.builder()
                 .userId(123)
