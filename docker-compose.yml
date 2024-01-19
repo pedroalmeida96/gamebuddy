@@ -13,23 +13,27 @@ services:
       - "5173:5173"
 
   postgres:
-    container_name: postgres
     image: postgres
+    container_name: postgres
+    env_file: ./.env
     environment:
-      POSTGRES_USER: gamebuddy
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    volumes:
-      - postgres:/data/postgres
+      POSTGRES_USER: $POSTGRESDB_USER
+      POSTGRES_PASSWORD: $POSTGRESDB_ROOT_PASSWORD
+      POSTGRES_DB: $POSTGRESDB_DATABASE
     ports:
       - "5432:5432"
-    networks:
+
+  gamebuddy:
+    env_file: ./.env
+    build:
+      dockerfile: Dockerfile
+    container_name: gamebuddy
+    depends_on:
       - postgres
-    restart: unless-stopped
-
-networks:
-  postgres:
-    driver: bridge
-
-volumes:
-  postgres:
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/gamebuddy
+      SPRING_DATASOURCE_USERNAME: $POSTGRESDB_USER
+      SPRING_DATASOURCE_PASSWORD: $POSTGRESDB_ROOT_PASSWORD
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
