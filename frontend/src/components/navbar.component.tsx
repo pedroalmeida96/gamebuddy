@@ -32,7 +32,7 @@ function Navbar() {
                 {!isLoggedIn && (
                     <>
                         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-                        <Route path="/registration" element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
+                        <Route path="/registration" element={<Registration />} />
                     </>
                 )}
             </Routes>
