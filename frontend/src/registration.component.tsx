@@ -30,7 +30,7 @@ function Registration({ setIsLoggedIn }: RegistrationProps) {
     axios
       .post("http://localhost:8080/registration", requestData)
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status == 200) {
           localStorage.setItem("username", requestData.username);
           localStorage.setItem("token", response.data);
           setIsLoggedIn(true);
