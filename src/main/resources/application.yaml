@@ -6,9 +6,12 @@ spring:
     name: gamebuddy
   datasource:
     platform: postgres
-    url: ${postgres_url}
-    username: ${postgres_user}
-    password: ${postgres_password}
+#    url: ${postgres_url}
+#    username: ${postgres_user}
+#    password: ${postgres_password}
+    url: jdbc:postgresql://localhost:5432/gamebuddy
+    username: gamebuddy
+    password: password
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,6 +22,5 @@ spring:
 
 logging:
   level:
-    root: DEBUG
-    org.springframework.web: INFO
+    org.springframework.web: ERROR
     com.pedroalmeida.gamebuddy: DEBUG
