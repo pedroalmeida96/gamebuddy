@@ -6,12 +6,9 @@ spring:
     name: gamebuddy
   datasource:
     platform: postgres
-#    For render use (reading from render env variables)
 #    url: ${postgres_url}
 #    username: ${postgres_user}
 #    password: ${postgres_password}
-
-#   For local use
     url: jdbc:postgresql://localhost:5432/gamebuddy
     username: gamebuddy
     password: password
@@ -25,6 +22,5 @@ spring:
 
 logging:
   level:
-    root: ERROR
     org.springframework.web: ERROR
     com.pedroalmeida.gamebuddy: DEBUG
