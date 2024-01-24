@@ -10,8 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
-    private ResponseEntity<String> userAlreadyExistsHandler(UserAlreadyExistsException exception){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Username already exists in db");
+    private ResponseEntity<Result> userAlreadyExistsHandler(UserAlreadyExistsException exception) {
+        var result = Result.builder().message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
     }
 
 }

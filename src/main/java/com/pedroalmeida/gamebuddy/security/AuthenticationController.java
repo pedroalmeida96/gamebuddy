@@ -3,6 +3,7 @@ package com.pedroalmeida.gamebuddy.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
+import com.pedroalmeida.gamebuddy.infra.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,11 @@ public class AuthenticationController {
 
         Authentication authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        var usuario = (AppUser) authenticate.getPrincipal();
+        var user = (AppUser) authenticate.getPrincipal();
 
         return JWT.create()
-                .withSubject(usuario.getUsername())
-                .withClaim("id", usuario.getUserId())
+                .withSubject(user.getUsername())
+                .withClaim("id", user.getUserId())
                 .withExpiresAt(LocalDateTime.now()
                         .plusMinutes(60)
                         .toInstant(ZoneOffset.of("+00:00"))
@@ -45,9 +46,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@RequestBody Login login) {
+    public ResponseEntity<Result> registration(@RequestBody Login login) {
         authenticationService.registerUser(login);
-        return ResponseEntity.status(HttpStatus.OK).body("New user added");
+        var result = Result.builder().message("New user added").build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
 
