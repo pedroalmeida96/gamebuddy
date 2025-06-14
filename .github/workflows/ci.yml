@@ -53,8 +53,25 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      - name: Push image
+      # -----------------------------
+      # Docker Login
+      # -----------------------------
+      - name: Docker login to GitHub Container Registry
         run: |
-          docker login --username pedroalmeida96 --password ${{ secrets.GHCR_ACCESS_TOKEN }} ghcr.io
-          docker build . --tag ghcr.io/pedroalmeida96/gamebuddy:latest
-          docker push ghcr.io/pedroalmeida96/gamebuddy:latest
+          echo ${{ secrets.GHCR_ACCESS_TOKEN }} | docker login ghcr.io -u pedroalmeida96 --password-stdin
+
+      # -----------------------------
+      # Build & Push Backend Image
+      # -----------------------------
+      - name: Build and push backend Docker image
+        run: |
+          docker build . -t ghcr.io/pedroalmeida96/gamebuddy-backend:latest
+          docker push ghcr.io/pedroalmeida96/gamebuddy-backend:latest
+
+      # -----------------------------
+      # Build & Push Frontend Image
+      # -----------------------------
+      - name: Build and push frontend Docker image
+        run: |
+          docker build ./frontend -f ./frontend/Dockerfile -t ghcr.io/pedroalmeida96/gamebuddy-frontend:latest
+          docker push ghcr.io/pedroalmeida96/gamebuddy-frontend:latest
