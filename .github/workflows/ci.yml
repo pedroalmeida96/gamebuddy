@@ -40,6 +40,19 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Or your required version
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
       - name: Push image
         run: |
           docker login --username pedroalmeida96 --password ${{ secrets.GHCR_ACCESS_TOKEN }} ghcr.io
