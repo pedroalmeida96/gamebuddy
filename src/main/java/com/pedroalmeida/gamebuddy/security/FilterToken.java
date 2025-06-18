@@ -23,7 +23,8 @@ public class FilterToken extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
         var authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null) {
             String token = authorizationHeader.replace("Bearer ", "");
