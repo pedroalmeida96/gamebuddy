@@ -2,23 +2,22 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: gamebuddy
   datasource:
-    platform: postgres
-#    url: ${postgres_url}
-#    username: ${postgres_user}
-#    password: ${postgres_password}
-    url: jdbc:postgresql://localhost:5432/gamebuddy
-    username: gamebuddy
-    password: password
-    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:${POSTGRESDB_PORT}/${POSTGRESDB_DATABASE}
+    username: ${POSTGRESDB_USER}
+    password: ${POSTGRESDB_ROOT_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt.secret: ${JWT_SECRET}
 
 logging:
   level:
