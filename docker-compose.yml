@@ -18,16 +18,16 @@ services:
     ports:
       - "5432:5432"
 
-  gamebuddy:
-    image: ghcr.io/pedroalmeida96/gamebuddy:latest
-    container_name: gamebuddy
-    depends_on:
-      - postgres
-    ports:
-      - "8080:8080"
-    env_file: ./.env
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/gamebuddy
-      SPRING_DATASOURCE_USERNAME: $POSTGRESDB_USER
-      SPRING_DATASOURCE_PASSWORD: $POSTGRESDB_ROOT_PASSWORD
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#  gamebuddy:
+#    image: ghcr.io/pedroalmeida96/gamebuddy:latest
+#    container_name: gamebuddy
+#    depends_on:
+#      - postgres
+#    ports:
+#      - "8080:8080"
+#    env_file: ./.env
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:$POSTGRESDB_PORT/$POSTGRESDB_DATABASE
+#      SPRING_DATASOURCE_USERNAME: $POSTGRESDB_USER
+#      SPRING_DATASOURCE_PASSWORD: $POSTGRESDB_ROOT_PASSWORD
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
