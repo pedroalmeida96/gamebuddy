@@ -65,7 +65,7 @@ jobs:
       # -----------------------------
       - name: Build and push backend Docker image
         run: |
-          docker build . -t ghcr.io/pedroalmeida96/gamebuddy:latest
+          docker build ./game-service -f ./game-service/Dockerfile -t ghcr.io/pedroalmeida96/gamebuddy:latest
           docker push ghcr.io/pedroalmeida96/gamebuddy:latest
 
       # -----------------------------

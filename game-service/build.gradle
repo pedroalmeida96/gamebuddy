@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+dependencies {
+    implementation libraries.springboot
+    implementation libraries.security
+    implementation libraries.jpa
+    implementation libraries.validation
+    implementation libraries.jwt
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation testLibraries.springBootTest
+}
+
+bootJar {
+    archiveBaseName = 'game-service'
+}
