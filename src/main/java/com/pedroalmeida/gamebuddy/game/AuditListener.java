@@ -1,6 +1,6 @@
 package com.pedroalmeida.gamebuddy.game;
 
-import com.pedroalmeida.gamebuddy.security.JwtTokenUtils;
+import com.pedroalmeida.gamebuddy.security.SecurityUtils;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
@@ -10,7 +10,7 @@ public class AuditListener {
 
     @PrePersist
     public void setCreationTimestamp(Game game) {
-        String loggedInUser = JwtTokenUtils.getCurrentLoggedInUser().getUsername();
+        String loggedInUser = SecurityUtils.getCurrentLoggedInUser().getUsername();
         game.setAuthor(loggedInUser);
         game.setCreated(new Date());
         game.setUpdated(new Date());
@@ -20,7 +20,7 @@ public class AuditListener {
 
     @PreUpdate
     public void setUpdateTimestamp(Game game) {
-        String loggedInUser = JwtTokenUtils.getCurrentLoggedInUser().getUsername();
+        String loggedInUser = SecurityUtils.getCurrentLoggedInUser().getUsername();
         game.setCreated(game.getCreated());
         game.setUpdated(new Date());
         game.setCreatedBy(game.getCreatedBy());

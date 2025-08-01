@@ -2,7 +2,7 @@ package com.pedroalmeida.gamebuddy.game;
 
 import com.pedroalmeida.gamebuddy.appuser.AppUser;
 import com.pedroalmeida.gamebuddy.appuser.UserService;
-import com.pedroalmeida.gamebuddy.security.JwtTokenUtils;
+import com.pedroalmeida.gamebuddy.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class FavoritesService {
 
     public ResponseEntity addFavorites(Integer gameId) {
 
-        UserDetails loggedInUser = JwtTokenUtils.getCurrentLoggedInUser();
+        UserDetails loggedInUser = SecurityUtils.getCurrentLoggedInUser();
         AppUser appUser = appUserService.getAppUserByUsername(loggedInUser.getUsername());
 
         Optional<Game> optionalGame = gameService.getGameById(gameId);
